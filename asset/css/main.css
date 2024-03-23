@@ -1,0 +1,19 @@
+@import "fontStyle.css";
+:root{
+    --body-font: "Noto Serif Lao", serif;
+    --normal-font-size: 1rem;
+    --small-font-size: 0.75rem;
+}
+
+*{
+    font-family: var(--body-font);
+    font-size: 18px;
+    font-weight: 400;
+}
+.logo{
+    width: 150px;
+    height: 130px;
+    display: block;
+    margin: auto;
+    margin-bottom: 1rem;
+}
