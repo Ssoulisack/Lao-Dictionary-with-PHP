@@ -32,31 +32,12 @@ require_once "db/session.php";
             <li class="nav-item"><a href="#" class="text-dark nav-link">ຄຳສັບທັງໝົດ</a></li>
             <li class="nav-item"><a href="#" class="text-dark nav-link">ກະທູ້ຖາມ-ຕອບ</a></li>
             <li class="nav-item"><a href="#" class="text-dark nav-link">ກ່ຽວກັບ</a></li>
-            <li class="nav-item dropdown">
-              <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">ລາຍງານ</a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການຮ້ອງຂໍແກ້ໄຂຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຄຳຂໍລົງທະບຽນຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
-              </ul>
-            </li>
+            
             <li class="nav-item dropdown">
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">ການລົງທະບຽນ</a>
               <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="signupMember.php" class="nav-link">ລົງທະບຽນສະມາຊິກ</a></li>
                 <li class="dropdown-item"><a href="signupEpl.php" class="nav-link">ລົງທະບຽນຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="signupAdminForm.php" class="nav-link">ເພີ່ມຜູ້ດູແລລະບົບ</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
-              <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ກະທູ້</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ແກ້ໄຂຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ອອກຈາກລະບົບ</a></li>
               </ul>
             </li>
           </ul>

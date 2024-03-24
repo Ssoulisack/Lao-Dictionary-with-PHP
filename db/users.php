@@ -9,7 +9,7 @@ class Users
         $this->db = $con;
     }
     //insert admin
-    public function insertAdmin($username, $email, $password, $fname, $lname, $address, $tel, $urole)
+    function insertAdmin($username, $email, $password, $fname, $lname, $address, $tel, $urole)
     {
         try {
             $passwordHash = md5($password.$username);
@@ -32,7 +32,7 @@ class Users
 
     }
     // Insert member 
-    public function insertUser($username, $email, $password, $fname, $lname, $address, $tel, $urole)
+    function insertUser($username, $email, $password, $fname, $lname, $address, $tel, $urole)
     {
         try {
             $passwordHash = md5($password.$username);
@@ -82,7 +82,7 @@ class Users
 
 
     //insert Language Expert
-    public function insertLanguageExpert($username, $email, $password, $fname, $lname, $address, $tel, $urole, $status, $doc)
+    function insertLanguageExpert($username, $email, $password, $fname, $lname, $address, $tel, $urole, $status, $doc)
     {
         try {
             $imageContent = file_get_contents($doc);
@@ -157,5 +157,17 @@ class Users
             return false;
         }
     }
-
+    //Approve Expert Language
+    function eplRequest($status) {
+        try{
+            $sql = "SELECT * FROM expert_language WHERE status = :status";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":status", $status);
+            $stmt->execute();
+            return $stmt;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return false;
+        }
+    }
 }

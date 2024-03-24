@@ -47,7 +47,7 @@ if (isset ($_POST["submit"]) && $_FILES["image"]) {
         } else {
             $result = $user->insertLanguageExpert($username, $email, $password, $fname, $lname, $address, $tel, $urole, $status, $doc);
             if ($result) {
-                $_SESSION["status"] = "Your account is now pending for approve";
+                $_SESSION["warning"] = "Your account is now pending for approve";
                 header("location:../login.php");
                 exit();
             } else {

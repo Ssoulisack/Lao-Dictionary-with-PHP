@@ -5,7 +5,8 @@ require_once "layout/header.php";
 ?>
 
 
-<main class="form-signin shadow p-3 w-50 m-auto">
+<main class="form-signin shadow p-3 w-75 m-auto">
+<div class="container">
     <form action="./registration/signupEpl_db.php" method="POST" enctype="multipart/form-data">
     <?php if (isset ($_SESSION['error'])) { ?>
             <div class="alert alert-danger" role="alert">
@@ -24,12 +25,11 @@ require_once "layout/header.php";
                 ?>
             </div>
         <?php } ?>
-        <div class="container">
             <h1 class="h3 text-center mb-3">ແບບຟອມລົງທະບຽນຜູ້ຊ່ຽວຊານພາສາ</h1>
 
             <div class="form-floating mb-2">
                 <input type="text" class="form-control" name="username" id="" placeholder="username">
-                <label for="username">ຊຶ່ຜູ້ໃຊ້ (Username)</label>
+                <label for="username">ຊື່ຜູ້ໃຊ້ (Username)</label>
             </div>
             <div class="form-floating mb-2">
                 <input type="email" class="form-control" name="email" id="" placeholder="name@example.com">
@@ -44,11 +44,11 @@ require_once "layout/header.php";
                 <label for="c_password">ຢືນຢັນລະຫັດຜ່ານ (Confirm password)</label>
             </div>
             <br>
-            <h4 class="text-center">ຂໍໍ້ມູນສ່ວນບຸກຄົນ</h4>
+            <h4 class="text-center">ຂໍ້ມູນສ່ວນບຸກຄົນ</h4>
             <hr>
             <div class="form-floating mb-2">
                 <input type="firstname" class="form-control" name="fname" id="" placeholder="firstname">
-                <label for="firstname">ຊຶ່ແທ້ (Firstname)</label>
+                <label for="firstname">ຊື່ແທ້ (Firstname)</label>
             </div>
             <div class="form-floating mb-2">
                 <input type="lastname" class="form-control" name="lname" id="" placeholder="lastname">
@@ -73,8 +73,8 @@ require_once "layout/header.php";
                 <button class="btn btn-primary w-100 py-2 mb-2 ms-auto" type="submit" name="submit">ລົງທະບຽນ</button>
                 <p class="text-center">Have already an account? <a href="login.php">sign in</a></p>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </main>
 </body>
 

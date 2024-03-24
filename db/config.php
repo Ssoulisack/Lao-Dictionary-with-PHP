@@ -1,5 +1,6 @@
 <?php
 require_once "users.php";
+require_once "Controller.php";
 
 $host = "localhost";
 $username = "root";
@@ -17,5 +18,6 @@ try{
     echo "Connection failed".$e->getMessage();
 }
 $user = new Users($conn);
-// $controller = new Controller($conn);
+$controller = new Controller($conn);
+
 ?>

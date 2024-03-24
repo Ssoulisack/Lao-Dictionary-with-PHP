@@ -1,11 +1,11 @@
 <?php
-$title = "Lao Dictionary";
-require_once "layout/header.php";
+$title = "homePage";
+require_once "layout/headerLogin.php";
+require_once "db/config.php";
+require_once "layout/checkLogin.php";
 require_once "layout/search.php";
-
 ?>
 
-<!-- SEARCH WITH ALPHABET AND RESULT -->
 <main id="search">
   <div class="container">
     <div class="row my-3">
