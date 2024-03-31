@@ -1,6 +1,6 @@
 <?php
 require_once "config.php";
-require_once "session.php";
+// session_start();
 class Users
 {
     private $db;

@@ -3,7 +3,7 @@ $title = "homePage";
 require_once "layout/headerLogin.php";
 require_once "db/config.php";
 require_once "layout/checkLogin.php";
-require_once "layout/search.php";
+require_once "layout/searchLogin.php";
 ?>
 
 <main id="search">

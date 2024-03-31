@@ -1,6 +1,6 @@
 <?php
 require_once "../db/config.php";
-require_once "../db/session.php";
+session_start();
 
 
 if (isset ($_POST["submit"]) && $_FILES["image"]) {

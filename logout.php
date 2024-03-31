@@ -1,5 +1,5 @@
 <?php
-require_once "db/session.php";
+session_start();
 ?>
 <?php
 session_destroy();

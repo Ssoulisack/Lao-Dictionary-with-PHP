@@ -1,6 +1,6 @@
 <?php
 require_once "../db/config.php";
-require_once "../db/session.php";
+session_start();
 
 //ADD Admin
 if(isset($_POST['submit'])){
@@ -27,19 +27,19 @@ if(isset($_POST['submit'])){
 
     if (strlen($password) > 20 || strlen($password) < 5) {
         $_SESSION['error'] = "The password must be 5 to 20 characters long.";
-        header("location:../signupAdminForm.php");
+        header("location:signupAdminForm.php");
         exit();
     }
 
     if ($password != $c_password) {
         $_SESSION["error"] = "Passwords do not match! Try again";
-        header("location:../signupAdminForm.php");
+        header("location:signupAdminForm.php");
         exit();
     }
     $result = $user->checkUserData($username, $email);
     if ($result['num'] > 0) {
         $_SESSION["error"] = "Email or username has already exits";
-        header("location:../signupAdminForm.php");
+        header("location:signupAdminForm.php");
         exit();
     } else {
         $result = $user->insertAdmin($username, $email, $password, $fname, $lname, $address, $tel, $urole);

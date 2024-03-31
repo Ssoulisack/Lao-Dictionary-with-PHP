@@ -32,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
             $_SESSION["id"] = $loginAdmin["admin_id"];
             $_SESSION["urole"] = $loginAdmin["urole"];
         } else if ($loginEpl["status"] == "pending") {
-            $_SESSION["warning"] = "Your status is now pending for approval.";
+            $_SESSION["warning"] = "ສະຖານະບັນຊີຂອງທ່ານຢູ່ໃນຂັ້ນຕອນການກວດສອບ";
             header("Location: login.php");
             exit();
         }else if ($loginEpl["status"] == "approve") {

@@ -1,5 +1,5 @@
 <?php
-require_once "db/session.php";
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,9 +37,9 @@ require_once "db/session.php";
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ການລົງທະບຽນ</a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="registration_Request.php" class="nav-link">ຄຳຂໍລົງທະບຽນຜູ້ຊ່ຽວຊານ</a>
+                <li class="dropdown-item"><a href="logging/registration_Request.php" class="nav-link">ຄຳຂໍລົງທະບຽນຜູ້ຊ່ຽວຊານ</a>
                 </li>
-                <li class="dropdown-item"><a href="signupAdminForm.php" class="nav-link">ເພີ່ມຜູ້ດູແລລະບົບ</a></li>
+                <li class="dropdown-item"><a href="logging/signupAdminForm.php" class="nav-link">ເພີ່ມຜູ້ດູແລລະບົບ</a></li>
               </ul>
             </li>
           <?php } ?>
@@ -83,7 +83,7 @@ require_once "db/session.php";
               </a>
               <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="logging/manage_vocab.php" class="nav-link">ແກ້ໄຂຄຳສັບ</a></li>
                 <li class="dropdown-item"><a href="logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
               </ul>
             </li>
