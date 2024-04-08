@@ -8,7 +8,17 @@ class Controller
     {
         $this->db = $con;
     }
-    //Delete Function ********CANCEL USER EXPERT LANGUAGE*****
+    //Show info Characters
+    function infoCharacter(){
+        try{
+            $sql = "SELECT * FROM Characters";
+            $result = $this->db->query($sql);
+            return $result;
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
+    }
+    //********CANCEL USER EXPERT LANGUAGE*****
     function cancelStatus($id)
     {
         try {
@@ -103,24 +113,44 @@ class Controller
     // }
 
     //INSERT Function
-    function insert($vocabulary, $pos_id ,$user_id)
+    function insert($user_id, $vocabulary, $pos_id, $definition, $example)
     {
         try {
             if($_SESSION['urole'] == 'admin'){
-                $sql = "INSERT INTO vocabulary (vocabulary, pos_id, admin_id) VALUES (:vocabulary, :pos_id, :admin_id)";
-                $stmt = $this->db->prepare($sql);
+                $sql1 = "INSERT INTO vocabulary (vocabulary, admin_id) VALUES (:vocabulary, :admin_id)";
+                $stmt = $this->db->prepare($sql1);
                 $stmt->bindParam(":vocabulary", $vocabulary);
-                $stmt->bindParam(":pos_id", $pos_id);
                 $stmt->bindParam(":admin_id", $user_id);
                 $stmt->execute();
+                $lastID = $this->db->lastInsertId();
+                
+                $sql2 = "INSERT INTO definition (pos_id, definition, example, v_id, admin_id) VALUES (:pos_id, :definition, :example, :v_id, :admin_id)";
+                $stmt2 = $this->db->prepare($sql2);
+                $stmt2->bindParam(":pos_id", $pos_id);
+                $stmt2->bindParam(":definition", $definition);
+                $stmt2->bindParam(":example", $example);
+                $stmt2->bindParam(":v_id", $lastID);
+                $stmt2->bindParam(":admin_id", $user_id);
+                $stmt2->execute();
+                $this->db = null;
                 return true;
             } else {
-                $sql = "INSERT INTO vocabulary (vocabulary, pos_id, e_id) VALUES (:vocabulary, pos_id, :e_id";
-                $stmt = $this->db->prepare($sql);
+                $sql1 = "INSERT INTO vocabulary (vocabulary, e_id) VALUES (:vocabulary, :e_id)";
+                $stmt = $this->db->prepare($sql1);
                 $stmt->bindParam(":vocabulary", $vocabulary);
-                $stmt->bindParam(":pos_id", $pos_id);
                 $stmt->bindParam(":e_id", $user_id);
                 $stmt->execute();
+                $lastID = $this->db->lastInsertId();
+                
+                $sql2 = "INSERT INTO definition (pos_id, definition, example, v_id, e_id) VALUES (:pos_id, :definition, :example, :v_id, :e_id)";
+                $stmt2 = $this->db->prepare($sql2);
+                $stmt2->bindParam(":pos_id", $pos_id);
+                $stmt2->bindParam(":definition", $definition);
+                $stmt2->bindParam(":example", $example);
+                $stmt2->bindParam(":v_id", $lastID);
+                $stmt2->bindParam(":e_id", $user_id);
+                $stmt2->execute();
+                $this->db = null;
                 return true;
             }
         } catch (PDOException $e) {
@@ -129,8 +159,22 @@ class Controller
         }
     }
 
-    function insertDefinition($definition, $example, $v_id, $e_id, $admin_id){
-        $sql = "INSERT INTO definition (definition, example, v_id, e_id, admin_id) VALUES (:definition, :example, (SELECT id FROM vocabulary WHERE v_id = :v_id ))";
-
+    // ***********Get detail Vocab*******************
+    function getVocabInfo($vocabulary){
+        try{
+            $vocab = '%'. $vocabulary .'%';
+            $sql = "SELECT b.v_id, b.vocabulary, a.definition, a.example, c.pos_name2 FROM definition a 
+            INNER JOIN vocabulary b ON b.v_id = a.v_id 
+            INNER JOIN parts_of_speech c ON a.pos_id = c.pos_id
+            WHERE vocabulary LIKE :vocab";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":vocab", $vocab);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+            
+        }catch(PDOException $e) {
+            return $e->getMessage();
+        }
     }
 }

@@ -36,7 +36,7 @@ class Users
     {
         try {
             $passwordHash = md5($password.$username);
-            $sql = "INSERT INTO members(username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
+            $sql = "INSERT INTO member(username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":fname", $fname);
@@ -61,7 +61,7 @@ class Users
         try {
             $sql = "SELECT COUNT(*) as num 
             FROM (
-                SELECT username, email FROM members WHERE username = :username OR email = :email
+                SELECT username, email FROM member WHERE username = :username OR email = :email
                 UNION ALL
                 SELECT username, email FROM admin WHERE username = :username OR email = :email
                 UNION ALL
@@ -144,7 +144,7 @@ class Users
     //Function Login by member
     function loginMembers($username,$password){
         try{
-            $sql= "SELECT * FROM members WHERE username=:username AND password=:password";
+            $sql= "SELECT * FROM member WHERE username=:username AND password=:password";
             $stmt= $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":password", $password);

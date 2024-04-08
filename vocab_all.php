@@ -6,15 +6,14 @@ require_once "db/config.php";
 $result = $controller->infoCharacter();
 if (isset($_POST["search"])) {
   $vocab = $_POST["vocab"];
-  $detail = $controller->getVocabInfo($vocab);
-  
+  echo $vocab;
+
 }
 
-
-  ?>
+?>
 
 <!-- SEARCH WITH ALPHABET AND RESULT -->
-<main id="search">
+<section id="search">
   <div class="container">
     <div class="row my-3">
       <hr>
@@ -29,11 +28,13 @@ if (isset($_POST["search"])) {
         <?php } ?>
       </div>
     </div>
-   
   </div>
-</main>
-<!-- RESULT -->
+</section>
+<hr>
+<!-- All Vocabulary -->
+<section id="show-vocab">
 
+</section>
 </body>
 
 </html>

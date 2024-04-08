@@ -4,31 +4,42 @@ require_once "../db/config.php";
 require_once "../layout/headerLogin2.php";
 $result = $controller->selectPos();
 if (isset($_POST['v_add'])) {
+    $user_id = $_SESSION['id'];
     $vocabulary = $_POST['vocabulary'];
     $pos_id = $_POST['pos_id'];
-    $user_id = $_SESSION['id'];
-    $insert = $controller->insert($vocabulary, $pos_id, $user_id);
+    $definition = $_POST['definition'];
+    $example = $_POST['example'];
 
-    if ($insert) {
-        $result = $controller->selectVocab();
-        // $definition = $_POST['definition'];
-        // $example = $_POST['example'];
-        // $v_id = $result['v_id'];
-        // $vocab = $result['vocabulary'];
-        // $pos_id = $result['pos_id'];
-        // $admin_id = $result['admin_id'];
-        // $e_id = $result['e_id'];
-        // print_r($result);
-        // echo $v_id;
-        // echo "<br>";
-        // echo $vocab;
-        // echo "<br>";
-        // echo $admin_id;
-        // echo "<br>";
-        // echo $pos_id;
-        // echo "<br>";
-        // echo $e_id;
+    if (empty($vocabulary) || empty($definition)) {
+        $_SESSION['error'] = 'ກະລຸນາປ້ອນຂໍ້ມູນຄຳສັບ';
+    } else {
+        $status = $controller->insert($user_id, $vocabulary, $pos_id, $definition, $example);
+        $_SESSION['success'] = 'ເພີ່ມຄຳສັບສຳເລັດ';
     }
+    //     if ($status) {
+//         echo '<script>
+//         setTimeout(function() {
+//          swal({
+//              title: "เพิ่มข้อมูลสำเร็จ",
+//              type: "success"
+//          }, function() {
+//              window.location = "manage_vocab.php";
+//          });
+//        }, 1000);
+//    </script>';
+//     } else {
+//         echo '<script>
+//           setTimeout(function() {
+//            swal({
+//                title: "เกิดข้อผิดพลาด",
+//                type: "error"
+//            }, function() {
+//                window.location = "manage_vocab.php"; 
+//            });
+//          }, 1000);
+//      </script>';
+//     }
+
 }
 
 
@@ -37,8 +48,24 @@ if (isset($_POST['v_add'])) {
 ?>
 <div class="container-md shadow p-4 mt-4 rounded-3">
     <form action="manage_vocab.php" method="POST">
+        <?php if (isset($_SESSION['error'])) { ?>
+            <div class="alert alert-danger" role="alert">
+                <?php
+                echo $_SESSION['error'];
+                unset($_SESSION['error']);
+                ?>
+            </div>
+        <?php } ?>
+        <?php if (isset($_SESSION['success'])) { ?>
+            <div class="alert alert-success" role="alert">
+                <?php
+                echo $_SESSION['success'];
+                unset($_SESSION['success']);
+                ?>
+            </div>
+        <?php } ?>
         <h1 class="h3 text-center mb-3">ຟອມແກ້ໄຂຄຳສັບ</h1>
-        <input type="hidden" class="mb-3 rounded-3" value="" name="id">
+        <input type="hidden" class="mb-3 rounded-3" value="<?php echo $_SESSION['id']; ?>" name="id">
 
         <div class="form-floating mb-2">
             <input type="text" class="form-control" value="" name="vocabulary" placeholder="vocabulary">
@@ -61,14 +88,13 @@ if (isset($_POST['v_add'])) {
                     </option>
                 <?php } ?>
             </select>
-            </select>
         </div>
 
         <div class="d-flex justify-content-end">
-            <button class="btn btn-outline-primary py-2" type="submit" name="v_edit">ແກ້ໄຂຂໍ້ມູນຄຳສັບ</button>
+            <input class="btn btn-outline-primary py-2" value="ແກ້ໄຂ" type="submit" name="v_edit">
             <?php if ($_SESSION["urole"] == "admin" || $_SESSION["urole"] == "languageExpert") { ?>
-                <button class="btn btn-primary mx-2 py-2 " type="submit" name="v_add">ເພີ່ມຄຳສັບ</button>
-                <button class="btn btn-secondary  py-2" type="submit" name="v_delete">ລົບຄຳສັບ</button>
+                <input class="btn btn-primary mx-2 py-2 " value="ເພີ່ມຄຳສັບ" type="submit" name="v_add">
+                <input class="btn btn-secondary  py-2" value="ລົບຄຳສັບ" type="submit" name="v_delete">
             <?php } ?>
         </div>
     </form>

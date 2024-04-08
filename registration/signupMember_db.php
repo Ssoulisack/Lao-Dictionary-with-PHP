@@ -10,7 +10,7 @@ if (isset ($_POST['submit'])) {
         if (empty ($_POST[$value])) {
             $fieldName = isset ($names[$index]) ? $names[$index] : $value;
             $_SESSION["error"] = "Please fill in the " . ucfirst($fieldName);
-            header("location:../signupMember.php");
+            header("location:signupMember.php");
             exit();
         }
 
@@ -27,19 +27,19 @@ if (isset ($_POST['submit'])) {
 
     if (strlen($password) > 20 || strlen($password) < 5) {
         $_SESSION['error'] = "The password must be 5 to 20 characters long.";
-        header("location:../signupMember.php");
+        header("location:signupMember.php");
         exit();
     }
 
     if ($password != $c_password) {
         $_SESSION["error"] = "Passwords do not match! Try again";
-        header("location:../signupMember.php");
+        header("location:signupMember.php");
         exit();
     }
     $result = $user->checkUserData($username, $email);
     if ($result['num'] > 0) {
         $_SESSION["error"] = "Email or username has already exits";
-        header("location:../signupMember.php");
+        header("location:signupMember.php");
         exit();
     } else {
         $result = $user->insertUser($username, $email, $password, $fname, $lname, $address, $tel, $urole);
