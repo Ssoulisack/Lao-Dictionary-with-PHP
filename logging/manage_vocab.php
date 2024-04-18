@@ -2,10 +2,12 @@
 $title = "Lao Dictionary";
 require_once "../db/config.php";
 require_once "../layout/headerLogin2.php";
-$result = $controller->selectPos();
+$characters = $controller->infoCharacter();
+$result = $controller->infoPos();
 if (isset($_POST['v_add'])) {
     $user_id = $_SESSION['id'];
     $vocabulary = $_POST['vocabulary'];
+    $character_id = $_POST['character_id'];
     $pos_id = $_POST['pos_id'];
     $definition = $_POST['definition'];
     $example = $_POST['example'];
@@ -13,37 +15,10 @@ if (isset($_POST['v_add'])) {
     if (empty($vocabulary) || empty($definition)) {
         $_SESSION['error'] = 'ກະລຸນາປ້ອນຂໍ້ມູນຄຳສັບ';
     } else {
-        $status = $controller->insert($user_id, $vocabulary, $pos_id, $definition, $example);
+        $status = $controller->insert($user_id, $vocabulary,$character_id, $pos_id, $definition, $example);
         $_SESSION['success'] = 'ເພີ່ມຄຳສັບສຳເລັດ';
     }
-    //     if ($status) {
-//         echo '<script>
-//         setTimeout(function() {
-//          swal({
-//              title: "เพิ่มข้อมูลสำเร็จ",
-//              type: "success"
-//          }, function() {
-//              window.location = "manage_vocab.php";
-//          });
-//        }, 1000);
-//    </script>';
-//     } else {
-//         echo '<script>
-//           setTimeout(function() {
-//            swal({
-//                title: "เกิดข้อผิดพลาด",
-//                type: "error"
-//            }, function() {
-//                window.location = "manage_vocab.php"; 
-//            });
-//          }, 1000);
-//      </script>';
-//     }
-
 }
-
-
-
 
 ?>
 <div class="container-md shadow p-4 mt-4 rounded-3">
@@ -80,10 +55,20 @@ if (isset($_POST['v_add'])) {
             <label for="example">ຕົວຢ່າງປະໂຫຍກ</label>
         </div>
         <div class="form-group mb-3">
-            <label for="department">Parts Of Speech</label>
+            <label for="department">ໝວດໝູ່ພະຍັນຊະນະ</label>
+            <select name="character_id" class="form-control">
+                <?php foreach($characters as $row) { ?>
+                    <option value="<?php echo $row["character_id"] ?>">
+                        <?php echo $row["characters"] ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <label for="department">ປະເພດຄຳສັບ</label>
             <select name="pos_id" class="form-control">
                 <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
-                    <option value="<?php echo $row["pos_id"] ?>">
+                    <option value="<?php echo $row["pos_id"]?>">
                         <?php echo $row["pos_name2"] ?>
                     </option>
                 <?php } ?>
@@ -91,11 +76,8 @@ if (isset($_POST['v_add'])) {
         </div>
 
         <div class="d-flex justify-content-end">
-            <input class="btn btn-outline-primary py-2" value="ແກ້ໄຂ" type="submit" name="v_edit">
-            <?php if ($_SESSION["urole"] == "admin" || $_SESSION["urole"] == "languageExpert") { ?>
                 <input class="btn btn-primary mx-2 py-2 " value="ເພີ່ມຄຳສັບ" type="submit" name="v_add">
-                <input class="btn btn-secondary  py-2" value="ລົບຄຳສັບ" type="submit" name="v_delete">
-            <?php } ?>
+                <input class="btn btn-secondary  py-2" value="ຍົກເລີກ" type="submit" name="v_delete">
         </div>
     </form>
 </div>

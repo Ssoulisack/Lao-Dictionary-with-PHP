@@ -1,28 +1,25 @@
 <?php
-$title = "ຜົນການຄົ້ນຫາຄຳສັບ";
-
-require_once "db/config.php";
+$title = "Lao Dictionary";
 require_once "layout/header.php";
 require_once "layout/search.php";
-
-if (isset($_POST["search"])) {
-  $vocab = $_POST['vocab'];
-  if (empty($vocab)) {
-    $_SESSION['error'] = 'ກະລຸນາປ້ອນຄຳສັບທີ່ຕ້ອງການຄົ້ນຫາ';
-  } else {
-    $result = $controller->getVocabInfo($vocab);
-    $count = count($result);
-  }
+require_once "db/config.php";
+$result = $controller->infoCharacter();
+if (!isset($_GET['id'])) {
+    header('location:index.php');
+} else {
+    $vocab_id = $_GET['id'];
+    $vocabulary = $controller->showDetail($vocab_id);
 }
 
 ?>
-<!-- RESULT -->
-<section id="result">
+
+<!-- Information Vocabulary -->
+<section id="Information">
   <div class="container my-3">
     <div class="row">
       <h4 class="text-center">ສະແດງຜົນການຄົ້ນຫາ</h4>
       <div id="vocab_info" class="alert alert-secondary d-flex flex-column">
-        <?php if (empty($vocab)) { ?>
+        <?php if (empty($vocabulary)) { ?>
           <?php if (isset ($_SESSION['error'])) { ?>
         <div class="alert alert-danger" role="alert">
             <?php
@@ -32,7 +29,7 @@ if (isset($_POST["search"])) {
         </div>
         <?php } ?>
         <?php } else { ?>
-          <?php foreach ($result as $row) { ?>
+          <?php foreach ($vocabulary as $row) { ?>
             <label for="">ຄຳສັບ: <p class="">
                 <?php echo $row['vocabulary'] ?>
               </p></label>

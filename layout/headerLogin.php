@@ -83,7 +83,7 @@ session_start();
               </a>
               <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
-                <li class="dropdown-item"><a href="logging/manage_vocab.php" class="nav-link">ແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="logging/manage_vocab.php" class="nav-link">ເພີ່ມຄຳສັບ</a></li>
                 <li class="dropdown-item"><a href="logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
               </ul>
             </li>

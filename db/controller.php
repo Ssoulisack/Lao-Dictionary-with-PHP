@@ -8,16 +8,40 @@ class Controller
     {
         $this->db = $con;
     }
-    //Show info Characters
+    //Show info Characters & Part of speech
     function infoCharacter(){
         try{
             $sql = "SELECT * FROM Characters";
-            $result = $this->db->query($sql);
+            $stmt = $this->db->query($sql);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
         }catch(Exception $e){
             return $e->getMessage();
         }
     }
+        function infoPos()
+        {
+            try {
+                $sql = "SELECT * FROM parts_of_speech";
+                $result = $this->db->query($sql);
+                return $result;
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+                return false;
+            }
+        }
+
+    //**********GET ALL VOCAB ***********/
+    function getAllVocab(){
+        try{
+            $sql = "SELECT * FROM vocabulary";
+            $result = $this->db->query($sql);
+            return $result;
+        }catch(PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
     //********CANCEL USER EXPERT LANGUAGE*****
     function cancelStatus($id)
     {
@@ -53,19 +77,6 @@ class Controller
         }
     }
 
-    // SELECT Function
-    function selectPos()
-    {
-        try {
-            $sql = "SELECT * FROM parts_of_speech";
-            $result = $this->db->query($sql);
-            return $result;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return false;
-        }
-    }
-
     function selectVocab(){
         try {
             $sql = "SELECT * FROM vocabulary";
@@ -78,7 +89,7 @@ class Controller
         }
     }
     
-    //info Users
+    // info Users
     // function infoAdmin(){
     //     try {
     //         $sql = "SELECT * FROM admin";
@@ -112,14 +123,14 @@ class Controller
     //     }
     // }
 
-    //INSERT Function
-    function insert($user_id, $vocabulary, $pos_id, $definition, $example)
+    function insert($user_id, $vocabulary, $character_id, $pos_id, $definition, $example) //Insert Vocab
     {
         try {
             if($_SESSION['urole'] == 'admin'){
-                $sql1 = "INSERT INTO vocabulary (vocabulary, admin_id) VALUES (:vocabulary, :admin_id)";
+                $sql1 = "INSERT INTO vocabulary (vocabulary, character_id, admin_id) VALUES (:vocabulary, :character_id, :admin_id)";
                 $stmt = $this->db->prepare($sql1);
                 $stmt->bindParam(":vocabulary", $vocabulary);
+                $stmt->bindParam(":character_id", $character_id);
                 $stmt->bindParam(":admin_id", $user_id);
                 $stmt->execute();
                 $lastID = $this->db->lastInsertId();
@@ -134,10 +145,11 @@ class Controller
                 $stmt2->execute();
                 $this->db = null;
                 return true;
-            } else {
+            } else{
                 $sql1 = "INSERT INTO vocabulary (vocabulary, e_id) VALUES (:vocabulary, :e_id)";
                 $stmt = $this->db->prepare($sql1);
                 $stmt->bindParam(":vocabulary", $vocabulary);
+                $stmt->bindParam(":character_id", $character_id);
                 $stmt->bindParam(":e_id", $user_id);
                 $stmt->execute();
                 $lastID = $this->db->lastInsertId();
@@ -159,7 +171,7 @@ class Controller
         }
     }
 
-    // ***********Get detail Vocab*******************
+    // ***********SEARCH VOCAB*******************
     function getVocabInfo($vocabulary){
         try{
             $vocab = '%'. $vocabulary .'%';
@@ -177,4 +189,53 @@ class Controller
             return $e->getMessage();
         }
     }
+    
+    function showVocab($character_id){
+        try{
+            $sql = "SELECT 
+            b.v_id, 
+            b.vocabulary, 
+            d.characters, 
+            a.definition, 
+            a.example, 
+            c.pos_name2 
+            FROM definition a 
+            INNER JOIN vocabulary b ON b.v_id = a.v_id 
+            INNER JOIN parts_of_speech c ON a.pos_id = c.pos_id 
+            INNER JOIN characters d ON b.character_id = d.character_id 
+            WHERE b.character_id = :character_id;";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":character_id", $character_id);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }catch(PDOException $e){
+            return false;
+        }
+    }
+
+    function showDetail($vocab_id){
+        try{
+            $sql = "SELECT 
+            b.v_id, 
+            b.vocabulary, 
+            d.characters, 
+            a.definition, 
+            a.example, 
+            c.pos_name2 
+            FROM definition a 
+            INNER JOIN vocabulary b ON b.v_id = a.v_id 
+            INNER JOIN parts_of_speech c ON a.pos_id = c.pos_id 
+            INNER JOIN characters d ON b.character_id = d.character_id 
+            WHERE b.v_id = :v_id;";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":v_id", $vocab_id);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        }catch(PDOException $e){
+            return false;
+        }
+    }
+    
 }
