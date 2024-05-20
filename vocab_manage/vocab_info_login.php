@@ -3,8 +3,6 @@ $title = "Lao Dictionary";
 require_once "header_vocab_manage.php";
 require_once "search_vocab_login.php";
 require_once "../db/config.php";
-$result = $controller->infoCharacter();
-$result_pos = $controller->infoPos();
 if (!isset($_GET['id'])) {
   header('location:homePage.php');
 } else {
@@ -55,8 +53,8 @@ if (isset($_POST['editVocab'])) { //Method edit vocab =.
           ?>
         </div>
       <?php } ?>
-      <?php if (empty($definition_info) && empty($infoVocab)) { ?>
-        <?php $_SESSION['error'] = 'ບໍ່ມີຄຳສັບນີ້'; ?>
+      <?php if (empty($detail) && empty($infoVocab)) { ?>
+        <?php $_SESSION['error'] = 'ບໍ່ມີຂໍ້ມູນຄຳສັບນີ້'; ?>
         <div id="vocab_info" class="alert alert-secondary">
           <?php if (isset($_SESSION['error'])) { ?>
             <div class="alert alert-danger" role="alert">
@@ -117,56 +115,58 @@ if (isset($_POST['editVocab'])) { //Method edit vocab =.
 
             <!-- ========DEFINITION & POS==========-->
             <hr>
-              <h5 class="fst-italic text-black-50">ປະເພດ</h5>
-              <div class="d-flex flex-row">
-                <?php foreach ($detail as $key => $value) { ?>
-                  <p class="fw-bold">
-                    <?php echo ($key + 1) . ": " . $value["pos_name2"] . "."; ?>
-                  </p>
-                <?php } ?>
-              </div>
+            <h5 class="fst-italic text-black-50">ປະເພດ</h5>
+            <div class="d-flex flex-row">
+              <?php foreach ($detail as $key => $value) { ?>
+                <p class="fw-bold">
+                  <?php echo ($key + 1) . ": " . $value["pos_name2"] . "."; ?>
+                </p>
+              <?php } ?>
+            </div>
 
-              <h5 class="fst-italic text-black-50">ນິຍາມຄວາມໝາຍຂອງຄຳສັບ</h5>
-              <?php foreach ($detail as $key => $definition) { ?>
-                <div class="d-flex align-items-center">
-                  <p class="fw-bold me-auto">
-                    <?php echo ($key + 1) . ": " . $definition["definition"]; ?>
+            <h5 class="fst-italic text-black-50">ນິຍາມຄວາມໝາຍຂອງຄຳສັບ</h5>
+            <?php foreach ($detail as $key => $definition) { ?>
+              <div class="d-flex align-items-center">
+                <p class="fw-bold me-auto">
+                  <?php echo ($key + 1) . ": " . $definition["definition"]; ?>
+                </p>
+                <input type="hidden" name="id" value="<?php echo $definition['definition_id'] ?>">
+                <input type="hidden" name="definition" value="<?php echo $definition['definition'] ?>">
+                <input type="hidden" name="example" value="<?php echo $definition['example'] ?>">
+                <input type="hidden" name="pos_id" value="<?php echo $definition['pos_id'] ?>">
+                <input type="hidden" name="vocabulary" value="<?php echo $definition['vocabulary'] ?>">
+                <a href="add_infoFrom.php?id=<?php echo $definition['definition_id'] ?>" class="btn btn-sm">
+                  <i class="bi bi-plus-square"></i>
+                </a>
+                <a href="edit_infoForm.php?id=<?php echo $definition['definition_id'] ?>" class="btn btn-sm">
+                  <i class="bi bi-pencil-square"></i>
+                </a>
+              </div>
+            <?php } ?>
+
+            <!--=========EXAMPLE===========-->
+            <h5 class="fst-italic text-black-50">ຕົວຢ່າງປະໂຫຍກ</h5>
+            <?php foreach ($detail as $key => $example) { ?>
+              <?php if (empty($example['example'])) { ?>
+                <div class="d-flex">
+                  <p class='fw-bold text-danger fs-5 me-auto'>
+                    <?php echo ($key + 1) . ": " .
+                      "ບໍ່ມີຕົວຢ່າງປະໂຫຍກນີ້" ?>
                   </p>
-                  <input type="hidden" name="id" value="<?php echo $definition['definition_id'] ?>">
-                  <input type="hidden" name="definition" value="<?php echo $definition['definition'] ?>">
-                  <input type="hidden" name="example" value="<?php echo $definition['example'] ?>">
-                  <input type="hidden" name="pos_id" value="<?php echo $definition['pos_id'] ?>">
-                  <input type="hidden" name="vocabulary" value="<?php echo $definition['vocabulary'] ?>">
-                  <a href="add_infoFrom.php?id=<?php echo $definition['definition_id'] ?>" class="btn btn-sm">
-                    <i class="bi bi-plus-square"></i>
-                  </a>
-                  <a href="edit_infoForm.php?id=<?php echo $definition['definition_id'] ?>" class="btn btn-sm">
-                    <i class="bi bi-pencil-square"></i>
-                  </a>
+                </div>
+              <?php } else { ?>
+                <div class="d-flex">
+                  <p class="fw-bold fs-5 me-auto">
+                    <?php echo ($key + 1) . ": " . $example["example"]; ?>
+                  </p>
                 </div>
               <?php } ?>
-
-              <!--=========EXAMPLE===========-->
-              <h5 class="fst-italic text-black-50">ຕົວຢ່າງປະໂຫຍກ</h5>
-              <?php foreach ($detail as $key => $example) { ?>
-                <?php if (empty($example['example'])) { ?>
-                  <p class="fw-bold text-danger fs-5 me-auto">
-                    ບໍ່ມີຕົວຢ່າງປະໂຫຍກນີ້
-                  </p>
-                  <a href="add_infoFrom.php?id=<?php echo $definition['definition_id'] ?>" class="btn btn-sm">
-                    <i class="bi bi-plus-square"></i>
-                  </a>
-                <?php } else { ?>
-                  <div class="d-flex">
-                    <p class="fw-bold fs-5 me-auto">
-                      <?php echo ($key + 1) . ": " . $example["example"]; ?>
-                    </p>
-                  </div>
-                <?php } ?>
-              <?php } ?>
+            <?php } ?>
           </div>
         </div>
       <?php } ?>
+    </div>
+  </div>
 </section>
 </body>
 
