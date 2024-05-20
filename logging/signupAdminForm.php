@@ -1,9 +1,7 @@
 <?php
 $title = "Lao Dictionary";
 require_once "../db/config.php";
-require_once "../layout/headerLogin2.php";
-
-
+require_once "headerLogging.php";
 ?>
 
 <main class="form-signup shadow p-3 w-75 m-auto">

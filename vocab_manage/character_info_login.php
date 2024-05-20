@@ -1,7 +1,8 @@
 <?php
-require_once "layout/headerLogin.php";
-require_once "layout/search.php";
-require_once "db/config.php";
+$title = "ໝວດໝູ່ຄຳສັບ";
+require_once "header_vocab_manage.php";
+require_once "search_vocab_login.php";
+require_once "../db/config.php";
 
 $result = $controller->infoCharacter();
 if (!isset($_GET['id'])) {
@@ -9,7 +10,6 @@ if (!isset($_GET['id'])) {
 } else {
     $character_id = $_GET['id'];
     $vocabulary = $controller->showVocab($character_id);
-    $count = $vocabulary[0];
 }
 
 ?>
@@ -22,9 +22,9 @@ if (!isset($_GET['id'])) {
             <form action="" method="GET">
                 <h5 class="text-center">ຄົ້ນຫາຕາມໝວດໝູ່ພະຍັນຊະນະ</h5>
                 <div class="row my-2 mx-auto">
-                    <?php foreach ($result as $row) { ?>
-                        <div class="col-2 col-md-1 col-lg-1  fs-4 ">
-                            <a href="character_info.php?id=<?php echo $row['character_id'] ?>"
+                    <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <div class="col-3 col-md-1 col-lg-1  fs-4 ">
+                            <a href="character_info_login.php?id=<?php echo $row['character_id'] ?>"
                                 class="nav-link"><?php echo $row['characters']; ?></a>
                         </div>
                     <?php } ?>
@@ -39,12 +39,12 @@ if (!isset($_GET['id'])) {
     <div class="container">
         <form action="" method="POST">
             <div class="row my-2 mx-auto">
-                <h4 class="text-center">ຄຳສັບ (<?php echo ($count['characters']) ?>):</h4>
-                <?php foreach ($vocabulary as $row) { ?>
+                <h4 class="text-center">ຄຳສັບ </h4>
+                <?php while ($row = $vocabulary->fetch(PDO::FETCH_ASSOC)) { ?>
                     <ul class="list-group col-4 col-lg-2 ">
                         <li class="nav-link">
-                            <a href="vocab_info_login.php?id=<?php echo $row['v_id'] ?>"
-                                class="nav-link my-2"><?php echo $row["vocabulary"] ?></a>
+                            <a href="vocab_info_login.php?id=<?php echo $row['v_id']; ?>"
+                                class="nav-link my-2"><h4><?php echo $row["vocabulary"];?></h4></a>
                         </li>
                     </ul>
                 <?php } ?>

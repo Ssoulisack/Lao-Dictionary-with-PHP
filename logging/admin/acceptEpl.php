@@ -6,7 +6,7 @@ if(!isset($_GET["id"])){
 }else{
     $id=$_GET["id"];
     $status = 'approve';
-    $result= $controller->updateStatus($id, $status);
+    $result= $user->updateStatus($id, $status);
     if($result){
         $_SESSION["success"] = "ຢືນຢັນການລົງທະບຽນສຳເລັດ";
         header("location:../registration_Request.php");

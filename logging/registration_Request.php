@@ -1,7 +1,7 @@
 <?php
 $title = "Registration";
 require_once "../db/config.php";
-require_once "../layout/headerLogin2.php";
+require_once "headerLogging.php";
 $status = 'pending';
 $result = $user->eplRequest($status);
 ?>

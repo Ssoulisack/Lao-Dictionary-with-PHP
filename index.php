@@ -6,7 +6,7 @@ require_once "db/config.php";
 $result = $controller->infoCharacter();
 if (isset($_POST["search"])) {
   $vocab = $_POST["vocab"];
-  $detail = $controller->getVocabInfo($vocab);
+  $detail = $controller->searchVocab($vocab);
 }
 
 ?>

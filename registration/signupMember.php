@@ -1,6 +1,5 @@
 <?php
 $title = "Lao Dictionary";
-session_start();
 require_once "../layout/header2.php";
 
 ?>

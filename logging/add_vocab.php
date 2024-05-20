@@ -1,7 +1,7 @@
 <?php
 $title = "Lao Dictionary";
 require_once "../db/config.php";
-require_once "../layout/headerLogin2.php";
+require_once "headerLogging.php";
 $characters = $controller->infoCharacter();
 $result = $controller->infoPos();
 if (isset($_POST['v_add'])) {
@@ -15,14 +15,18 @@ if (isset($_POST['v_add'])) {
     if (empty($vocabulary) || empty($definition)) {
         $_SESSION['error'] = 'ກະລຸນາປ້ອນຂໍ້ມູນຄຳສັບ';
     } else {
-        $status = $controller->insert($user_id, $vocabulary,$character_id, $pos_id, $definition, $example);
-        $_SESSION['success'] = 'ເພີ່ມຄຳສັບສຳເລັດ';
+        $status = $controller->insert($user_id, $vocabulary, $character_id, $pos_id, $definition, $example);
+        if($status){
+            $_SESSION['success'] = 'ເພີ່ມຄຳສັບສຳເລັດ';
+        }else{
+            $_SESSION['error'] = 'ຂໍ້ມູນບໍ່ຖືກຕ້ອງ';
+        }
     }
 }
 
 ?>
 <div class="container-md shadow p-4 mt-4 rounded-3">
-    <form action="manage_vocab.php" method="POST">
+    <form action="add_vocab.php" method="POST">
         <?php if (isset($_SESSION['error'])) { ?>
             <div class="alert alert-danger" role="alert">
                 <?php
@@ -39,7 +43,7 @@ if (isset($_POST['v_add'])) {
                 ?>
             </div>
         <?php } ?>
-        <h1 class="h3 text-center mb-3">ຟອມແກ້ໄຂຄຳສັບ</h1>
+        <h1 class="h3 text-center mb-3">ຟອມເພີ່ມຄຳສັບ</h1>
         <input type="hidden" class="mb-3 rounded-3" value="<?php echo $_SESSION['id']; ?>" name="id">
 
         <div class="form-floating mb-2">
@@ -57,7 +61,7 @@ if (isset($_POST['v_add'])) {
         <div class="form-group mb-3">
             <label for="department">ໝວດໝູ່ພະຍັນຊະນະ</label>
             <select name="character_id" class="form-control">
-                <?php foreach($characters as $row) { ?>
+                <?php foreach ($characters as $row) { ?>
                     <option value="<?php echo $row["character_id"] ?>">
                         <?php echo $row["characters"] ?>
                     </option>
@@ -68,7 +72,7 @@ if (isset($_POST['v_add'])) {
             <label for="department">ປະເພດຄຳສັບ</label>
             <select name="pos_id" class="form-control">
                 <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
-                    <option value="<?php echo $row["pos_id"]?>">
+                    <option value="<?php echo $row["pos_id"] ?>">
                         <?php echo $row["pos_name2"] ?>
                     </option>
                 <?php } ?>
@@ -76,8 +80,12 @@ if (isset($_POST['v_add'])) {
         </div>
 
         <div class="d-flex justify-content-end">
-                <input class="btn btn-primary mx-2 py-2 " value="ເພີ່ມຄຳສັບ" type="submit" name="v_add">
-                <input class="btn btn-secondary  py-2" value="ຍົກເລີກ" type="submit" name="v_delete">
+            <input class="btn btn-primary mx-2 py-2 " value="ເພີ່ມຄຳສັບ" type="submit" name="v_add">
+            <input class="btn btn-secondary  py-2" value="ຍົກເລີກ" type="submit" name="v_delete">
         </div>
     </form>
 </div>
+
+</body>
+
+</html>

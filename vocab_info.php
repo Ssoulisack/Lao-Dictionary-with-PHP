@@ -25,22 +25,22 @@ if (!isset($_GET['id'])) {
             <?php
                 echo $_SESSION['error'];
                 unset($_SESSION['error']);
-                ?>
+              ?>
         </div>
         <?php } ?>
         <?php } else { ?>
           <?php foreach ($vocabulary as $row) { ?>
-            <label for="">ຄຳສັບ: <p class="">
+            <label for="">ຄຳສັບ: <p class="fw-bold fs-5">
                 <?php echo $row['vocabulary'] ?>
               </p></label>
-            <label for="">ປະເພດ: <p class="">
+            <label for="">ປະເພດ: <p class="fw-bold fs-5">
                 <?php echo $row['pos_name2'] ?>
               </p></label>
-            <label for="">ນິຍາມຄວາມໝາຍຂອງຄຳສັບ: <p class="">
+            <label for="">ນິຍາມຄວາມໝາຍຂອງຄຳສັບ: <p class="fw-bold fs-5">
                 <?php echo $row['definition'] ?>
               </p></label>
             <label for="">ຕົວຢ່າງປະໂຫຍກ:</label>
-            <p class="alert alert-warning">
+            <p class="alert alert-warning fw-bold fs-5">
               <?php echo $row['example'] ?>
             </p>
           <?php } ?>

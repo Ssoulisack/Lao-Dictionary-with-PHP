@@ -12,12 +12,6 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $loginMember = $user->loginMembers($username, $new_password);
     $loginEpl= $user->loginExpertLanguage($username, $new_password);
 
-    // var_dump($loginAdmin);
-    // echo "<hr>";
-    // var_dump($loginMember);
-    // echo "<hr>";
-    // var_dump($loginEpl);
-    
     if (!$loginMember && !$loginAdmin && !$loginEpl) {
         $_SESSION["error"] = "Username or password incorrect";
         header("Location: login.php");

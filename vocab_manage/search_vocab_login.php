@@ -1,7 +1,6 @@
-
 <!-- SEARCH -->
 <section id="search">
-  <form class="form-group" action="./vocab_manage/resultsLogin.php" method="POST">
+  <form class="form-group" action="resultsLogin.php" method="POST">
     <h5 for="search" class="text-center">ຄົ້ນຫາຄຳສັບ</h5>
     <div class="d-flex justify-content-center">
       <input type="search" class="form-control w-50  rounded-2" placeholder="ປ້ອນຄຳສັບທີ່ຕ້ອງການຄົ້ນຫາ..." name="vocab">
