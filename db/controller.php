@@ -173,7 +173,7 @@ class Controller
             return false;
         }
     }
-    //Detail definition & exmaple
+    //Detail definition & example
     function showDetail($vocab_id)
     {
         try {
