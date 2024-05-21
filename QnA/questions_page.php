@@ -75,7 +75,7 @@ $results = $question->showQuestions($start, $rows_per_page);
                     <?php $count_from = 1; ?>
                 <?php } ?>
                 <?php for ($num = $count_from; $num <= $pages; $num++) { ?>
-                    <?php if ($num == $_GET['page_nr']) { ?>
+                    <?php if ($num == @$_GET['page_nr']) { ?>
                         <li class="page-item"><a class="page-link active"
                                 href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
                     <?php } else { ?>
