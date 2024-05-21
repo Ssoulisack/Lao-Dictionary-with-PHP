@@ -30,7 +30,7 @@ session_start();
       <div class="collapse navbar-collapse" id="navToggle">
         <ul class="navbar-nav ms-auto me-auto">
           <li class="nav-item"><a href="../homePage.php" class="text-dark nav-link">ໜ້າທຳອິດ</a></li>
-          <li class="nav-item"><a href="#" class="text-dark nav-link">ກະທູ້ຖາມ-ຕອບ</a></li>
+          <li class="nav-item"><a href="../QnA/questions_page.php" class="text-dark nav-link">ກະທູ້ຖາມ-ຕອບ</a></li>
           <li class="nav-item"><a href="#" class="text-dark nav-link">ກ່ຽວກັບ</a></li>
           <?php if ($_SESSION["urole"] == "admin") { ?>
             <li class="nav-item dropdown">

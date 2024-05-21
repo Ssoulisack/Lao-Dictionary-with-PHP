@@ -12,8 +12,10 @@ if (isset($_POST['v_add'])) {
     $definition = $_POST['definition'];
     $example = $_POST['example'];
 
-    if (empty($vocabulary) || empty($definition)) {
+    if (empty($vocabulary)) {
         $_SESSION['error'] = 'ກະລຸນາປ້ອນຂໍ້ມູນຄຳສັບ';
+    }else if(empty($definition)){
+        $_SESSION['error'] = 'ກະລຸນາປ້ອນຄຳອະທິບາຍ';
     } else {
         $status = $controller->insert($user_id, $vocabulary, $character_id, $pos_id, $definition, $example);
         if($status){

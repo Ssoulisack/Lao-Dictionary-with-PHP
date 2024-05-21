@@ -1,5 +1,6 @@
 <?php
 require_once "users.php";
+require_once "question.php";
 require_once "Controller.php";
 
 $host = "localhost";
@@ -19,5 +20,5 @@ try{
 }
 $user = new Users($conn);
 $controller = new Controller($conn);
-
+$question = new Question($conn);
 ?>
