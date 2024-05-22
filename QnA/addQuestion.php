@@ -13,10 +13,16 @@ if(isset($_POST['submit'])){
         $_SESSION['error'] = "ກະລຸນາປ້ອນລາຍລະອຽດເນຶ້ອຫາ";
         header("location:addQuestion_form.php");
     }else{
-        $addQuestion = $question->addQuestion($title, $content, $user_id);
+        if (strlen($title) > 300) {
+            $_SESSION['error'] = "The title is long.";
+            header("location:addQuestion_form.php");
+        }else{
+            $addQuestion = $question->addQuestion($title, $content, $user_id);
         if($addQuestion){
             $_SESSION['success'] = "ສ້າງກະທູ້ສຳເລັດ";
             header("location:questions_page.php");
         }
+        }
+        
     }
 }?>

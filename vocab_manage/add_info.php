@@ -11,7 +11,16 @@ if (isset($_POST['submit'])) {
     $user_id = $_SESSION['id'];
     $urole = $_SESSION['urole'];
     $status = 'pending';
-    $addDefinition = $controller->addDefinition($pos_id, $definition_id, $new_definition, $new_example, $v_id, $user_id, $username, $urole, $status);
+    if(empty($new_definition)){
+        $_SESSION["error"] = "ກະລຸນາປ້ອນຄຳອະທິບາຍສັບ";
+        header('location:../homePage.php');
+        exit();
+    }else if(empty($new_example)){
+        $_SESSION["error"] = "ກະລຸນາປ້ອນຕົວຢ່າງຄຳສັບ";
+        header('location:../homePage.php');
+        exit();
+    }else{
+        $addDefinition = $controller->addDefinition($pos_id, $definition_id, $new_definition, $new_example, $v_id, $user_id, $username, $urole, $status);
     if ($addDefinition) {
         $_SESSION["warning"] = "ຄຳຂໍແກ້ໄຂຄຳສັບຢູ່ໃນຂັ້ນຕອນການກວດສອບ";
         header("location:../homePage.php");
@@ -20,5 +29,6 @@ if (isset($_POST['submit'])) {
         $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
         header('location:../homePage.php');
         exit();
+    }
     }
 }
