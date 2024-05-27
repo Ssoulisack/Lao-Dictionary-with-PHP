@@ -74,7 +74,10 @@ session_start();
                 <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
               </ul>
             </li>
-          <?php } ?>
+          <?php } else {
+            header("Location: ../login.php");
+            exit();
+          }?>
           <?php if (isset ($_SESSION["id"])) { ?>
             <li class="nav-item dropdown">
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
@@ -100,7 +103,10 @@ session_start();
                   </ul>
               <?php } ?>
             </li>
-          <?php } ?>
+          <?php } else {
+            header("Location: ../login.php");
+            exit();
+          }?>
         </ul>
       </div>
     </div>

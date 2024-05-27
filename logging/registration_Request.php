@@ -24,7 +24,7 @@ $result = $user->eplRequest($status);
             </div>
         <?php } ?>
         <h1 class="text-center">
-            <?php echo "Request Registration" ?>
+            <?php echo "ຄຳຂໍລົງທະບຽນຜູ້ຊ່ຽວຊານ" ?>
         </h1>
         <hr>
             <div class="row">

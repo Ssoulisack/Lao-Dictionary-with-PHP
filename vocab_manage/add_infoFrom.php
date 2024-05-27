@@ -11,7 +11,7 @@ if (!isset($_GET['id'])) {
 ?>
 <div class="container-md shadow p-4 mt-4 rounded-3">
     <form action="add_info.php" method="POST">
-        <h1 class="text-center"><?php echo "Edit Form"; ?></h1>
+        <h1 class="text-center"><?php echo "ເພີ່ມຄຳອະທິບາຍ"; ?></h1>
         <div class="from-group">
             <label for="vocab">ຄຳສັບ</label>
             <input type="hidden" name="definition_id" class="form-control" value="<?php echo $details["definition_id"] ?>">

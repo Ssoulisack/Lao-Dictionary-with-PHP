@@ -29,7 +29,7 @@ require_once "headerQA.php";
         <hr>
         <h4 class="text-center">ເນື້ອໃນ</h4>
         <div class="d-flex align-items-center mb-2">
-            <textarea name="content" class="form-control ms-4" id="" cols="20" rows="10"></textarea>
+            <textarea id="content" name="content" class="form-control ms-4" id="" cols="20" rows="10"></textarea>
         </div>
         <div class="d-flex justify-content-end">
             <input class="btn btn-primary mx-2 py-2 " value="ຢືນຍັນ" type="submit" name="submit">
@@ -37,6 +37,24 @@ require_once "headerQA.php";
         </div>
     </form>
 </div>
+<script>
+    //function Tab textarea
+document.getElementById('content').addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault(); // Prevent the default tab behavior
+
+        // Get the cursor position
+        let start = this.selectionStart;
+        let end = this.selectionEnd;
+
+        // Set the textarea value to: text before cursor + tab + text after cursor
+        this.value = this.value.substring(0, start) + '\t' + this.value.substring(end);
+
+        // Move the cursor to the right place after inserting the tab
+        this.selectionStart = this.selectionEnd = start + 1;
+    }
+});
+</script>
 
 </body>
 

@@ -105,7 +105,7 @@ $results = $question->showQuestions($start, $rows_per_page);
         <hr>
         <?php while ($result = $results->fetch(PDO::FETCH_ASSOC)) { ?>
             <div class="border rounded-2 p-2 my-3">
-                <a class="nav-link fs-5" href="#"><?php echo $result['title']; ?></a>
+                <a class="nav-link fs-5" href="question_detail.php?id=<?php echo $result['q_id'] ?>"><?php echo $result['title']; ?></a>
             </div>
         <?php } ?>
         <!-- pagination -->

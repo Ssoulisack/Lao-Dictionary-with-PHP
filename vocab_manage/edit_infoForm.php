@@ -13,7 +13,7 @@ if (!isset($_GET['id'])) {
 
 <div class="container-md shadow p-4 mt-4 rounded-3">
     <form action="edit_info.php" method="POST">
-        <h1 class="text-center"><?php echo "Edit Form"; ?></h1>
+        <h1 class="text-center"><?php echo "ແກ້ໄຂຄຳອະທິບາຍ"; ?></h1>
         <input type="hidden" name="definition_id" class="form-control" value="<?php echo $details["definition_id"] ?>">
         <input type="hidden" name="v_id" class="form-control" value="<?php echo $details["v_id"] ?>">
         <input type="hidden" name="old_definition" class="form-control" value="<?php echo $details["definition"] ?>">
