@@ -65,17 +65,36 @@ if ($id) {
             <?php } ?>
             <h5 class="fw-bold ms-2"><?php echo $commentNr ?> ຄຳຄິດເຫັນ</h5>
             <div id="comments-section">
-                <?php while ($comment = $comments->fetch(PDO::FETCH_ASSOC)) {
+                <?php
+                $commentsArray = [];
+                $repliesArray = [];
+
+                // Organize comments and replies
+                while ($comment = $comments->fetch(PDO::FETCH_ASSOC)) {
+                    if ($comment['r_id'] == 0) {
+                        // It's a main comment
+                        $commentsArray[$comment['c_id']] = $comment;
+                    } else {
+                        // It's a reply
+                        $repliesArray[$comment['r_id']][] = $comment;
+                    }
+                }
+
+                // Display comments and their replies
+                foreach ($commentsArray as $comment) {
                     $ct = $comment['content'];
                     $contents = nl2br(htmlspecialchars($ct, ENT_QUOTES, 'UTF-8'));
-                    $content = str_replace('<br />', '', $contents); ?>
+                    $content = str_replace('<br />', '', $contents);
+                    $commentId = $comment['c_id'];
+                    $replyCount = isset($repliesArray[$commentId]) ? count($repliesArray[$commentId]) : 0;
+                    ?>
                     <div class="mt-2 comment-box">
                         <div class="comment-header dropdown">
                             <p class="fw-bold username text-primary"><?php echo $comment['username'] ?></p>
                             <?php if ($comment['user_id'] == $_SESSION['id'] && $comment['username'] == $_SESSION['username']) { ?>
                                 <button class="button dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
+                                    <i class="bi bi-three-dots"></i>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li><button class="dropdown-item edit-button" href="#">ແກ້ໄຂ</button></li>
@@ -87,7 +106,7 @@ if ($id) {
                                 </ul>
                             <?php } ?>
                         </div>
-                        <div class="comment">
+                        <div class="comment-body">
                             <form id="edit-comment-form" action="edit_comment.php" method="post">
                                 <!-- Specify action attribute -->
                                 <p class="comment-content"><?php echo $content ?></p>
@@ -109,7 +128,7 @@ if ($id) {
                             <span class="text-muted time" data-time="<?php echo $comment['create_at']; ?>"></span>
                             <span class="action reply-link">ຕອບກັບ</span>
                         </div>
-                        <!-- Reply comment -->
+                        <!-- Reply comment form -->
                         <div class="reply-form" style="display:none;">
                             <form action="reply.php" method="post">
                                 <input type="hidden" name="c_id" value="<?php echo $comment['c_id']; ?>">
@@ -122,6 +141,34 @@ if ($id) {
                             </form>
                         </div>
                     </div>
+                    <!-- Display replies for this comment -->
+                    <div class="ms-4 replies" id="replies-<?php echo $comment['c_id']; ?>">
+                        <?php if (isset($repliesArray[$comment['c_id']])) {
+                            foreach ($repliesArray[$comment['c_id']] as $reply) {
+                                $rt = $reply['content'];
+                                $replyContents = nl2br(htmlspecialchars($rt, ENT_QUOTES, 'UTF-8'));
+                                $replyContent = str_replace('<br />', '', $replyContents);
+                                ?>
+                                <div class="mt-2 reply-box">
+                                    <div class="comment-header dropdown">
+                                        <p class="fw-bold username fw-bold"><?php echo $reply['username']; ?></p>
+                                    </div>
+                                    <div class="comment">
+                                        <p class="comment-content"><?php echo $replyContent; ?></p>
+                                    </div>
+                                    <div class="comment-actions">
+                                        <span class="text-muted">ເວລາ: </span>
+                                        <span class="text-muted time" data-time="<?php echo $reply['create_at']; ?>"></span>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        } ?>
+                    </div>
+                    <?php if ($replyCount > 0) { ?>
+                        <button class="toggle-replies" onclick="toggleReplies(<?php echo $comment['c_id']; ?>)">View
+                            <?php echo $replyCount; ?> replies</button>
+                    <?php } ?>
                 <?php } ?>
             </div>
         </div>
@@ -161,7 +208,7 @@ if ($id) {
             commentEditContent.classList.toggle('d-none');
             submitButton.classList.toggle('d-none');
             cancelButton.classList.toggle('d-none');
-            commentActions.classList.toggle('d-none')
+            commentActions.classList.toggle('d-none');
 
             // Add a global click listener to cancel editing when clicking outside the comment box
             setTimeout(() => {
@@ -262,6 +309,18 @@ if ($id) {
         document.getElementById('edit-comment-form').reset(); // Reset form fields if needed
         // Optionally, you can hide the form or perform any other actions here
     });
+    
+    function toggleReplies(commentId) {
+        const replies = document.getElementById(`replies-${commentId}`);
+        const toggleButton = document.querySelector(`button[onclick="toggleReplies(${commentId})"]`);
+        if (replies.style.display === 'none' || replies.style.display === '') {
+            replies.style.display = 'block';
+            toggleButton.textContent = 'Hide replies';
+        } else {
+            replies.style.display = 'none';
+            toggleButton.textContent = `View replies`;
+        }
+    }
 </script>
 </body>
 

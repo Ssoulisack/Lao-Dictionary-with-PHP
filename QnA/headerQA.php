@@ -15,105 +15,153 @@ session_start();
     <link rel="stylesheet" href="../asset/css/main.css">
     <script src="../asset/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
     <style>
-    .comment-box {
-        display: flex;
-        flex-direction: column;
-        padding: 10px 20px 10px 20px;
-        background-color: #f0f2f5;
-        border-radius: 30px;
-        max-width: 100%;
-        color: #1c1e21;
-        margin-bottom: 10px;
-    }
-    .comment-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-    .button{
-        background-color: #f0f2f5;
-        border: none;
-    }
-    .username {
-        font-weight: bold;
-        color: #1c1e21;
-        margin: 0;
-    }
-    .comment-content {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        margin-bottom: 5px;
-        padding: 8px;
-        border-radius: 10px;
-    }
-    .comment-actions {
-        display: flex;
-        align-items: center;
-        font-size: 0.9em;
-        color: #606770;
-    }
-    .comment-actions .time {
-        margin-right: 10px;
-        color: #606770;
-    }
-    .comment-actions .action {
-        margin-right: 10px;
-        cursor: pointer;
-        text-decoration: none;
-        color: #385898;
-    }
-    .comment-actions .action:hover {
-        text-decoration: underline;
-    }
-    .reply-form {
-        margin-top: 10px;
-        padding: 5px;
-        background-color: #f0f2f5;
-        border-radius: 10px;
-    }
-    .form-group {
-        margin-bottom: 10px;
-    }
-    .btn {
-        background-color: #1877f2;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-    }
-    .btn:hover {
-        background-color: #0056b3;
-    }
-    .buttons{
-        font-size: 1rem;
-        border: none;
-        border-radius: 30px;
-        padding: 10px 20px;
-    }
-    .btn-submit{
-        color: #f0f2f5;
-        background-color: #333;
-    }
-    .btn-can{
-        color: #333;
-        background-color: #f0f2f5;
-    }
-    .btn-reply{
-        padding: 5px 10px 5px 10px;
-        font-size: 1rem;
-        border: none;
-        border-radius: 20px;
-        color: #f0f2f5;
-        background-color: #333;
-        width: fit-content;
-        position: relative;
-        margin-left: auto;
-    }
-</style>
+        .comment-box {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 20px 10px 20px;
+            background-color: #f0f2f5;
+            border: 1px solid #f0f2f5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 30px;
+            width: fit-content;
+            max-width: 100%;
+            color: #1c1e21;
+            margin-bottom: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .button {
+            background-color: #f0f2f5;
+            border: none;
+        }
+
+        .username {
+            font-weight: bold;
+            color: #1c1e21;
+            margin: 0;
+        }
+
+        .comment-content {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 5px;
+            padding: 8px;
+            border-radius: 10px;
+        }
+
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            color: #606770;
+        }
+
+        .comment-actions .time {
+            margin-right: 10px;
+            color: #606770;
+        }
+
+        .comment-actions .action {
+            margin-right: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #385898;
+        }
+
+        .comment-actions .action:hover {
+            text-decoration: underline;
+        }
+
+        .reply-form {
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #f0f2f5;
+            border-radius: 10px;
+        }
+
+        .reply-box {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 20px 10px 20px;
+            background-color: #f0f2f5;
+            border-radius: 30px;
+            width: fit-content;
+            max-width: 100%;
+            color: #1c1e21;
+            margin-bottom: 10px;
+        }
+        .replies{
+            display: none;
+        }
+        .toggle-replies {
+            border: none;
+            background: none;
+            color: gray;
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .buttons {
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+        }
+
+        .btn-submit {
+            color: #f0f2f5;
+            background-color: #333;
+        }
+
+        .btn-can {
+            color: #333;
+            background-color: #f0f2f5;
+        }
+
+        .btn-reply {
+            padding: 5px 10px 5px 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 15px;
+            color: #333;
+            background-color: #f0f2f5;
+            width: fit-content;
+            position: relative;
+            margin-left: auto;
+        }
+
+        .btn-reply:hover {
+            border-radius: 15px;
+            color: #f0f2f5;
+            background-color: #333;
+        }
+    </style>
 </head>
 
 <body>

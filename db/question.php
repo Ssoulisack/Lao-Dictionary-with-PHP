@@ -97,13 +97,11 @@ class Question
     function showComment($q_id) //question_detail.php
     {
         try {
-            $r_id = 0;
-            $sql = "SELECT q_id, c_id, content, user_id, username, create_at
+            $sql = "SELECT q_id, r_id, c_id, content, user_id, username, create_at
             FROM comment
-            WHERE q_id = :q_id AND r_id = :r_id ORDER BY create_at DESC";
+            WHERE q_id = :q_id ORDER BY create_at DESC";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":q_id", $q_id);
-            $stmt->bindParam(":r_id", $r_id);
             $stmt->execute();
             return $stmt;
         } catch (PDOException $e) {
