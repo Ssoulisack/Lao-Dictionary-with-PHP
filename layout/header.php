@@ -15,6 +15,58 @@ session_start();
   <link rel="stylesheet" href="./asset/css/main.css">
   <script src="./asset/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
 </head>
+<!-- Style -->
+<style>
+        .comment-box {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 20px 10px 20px;
+            background-color: #f0f2f5;
+            border: 1px solid #f0f2f5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 30px;
+            width: fit-content;
+            max-width: 100%;
+            color: #1c1e21;
+            margin-bottom: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .username {
+            font-weight: bold;
+            color: #1c1e21;
+            margin: 0;
+        }
+
+        .reply-box {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 20px 10px 20px;
+            background-color: #f0f2f5;
+            border-radius: 30px;
+            width: fit-content;
+            max-width: 100%;
+            color: #1c1e21;
+            margin-bottom: 10px;
+        }
+        .replies{
+            display: none;
+        }
+        .toggle-replies {
+            border: none;
+            background: none;
+            color: gray;
+            cursor: pointer;
+            font-size: 18px;
+            margin-left: 20px;
+        }
+    </style>
 
 <body>
   <nav class="navbar navbar-expand-lg bg-white mb-3 sticky-top">

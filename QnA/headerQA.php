@@ -107,6 +107,11 @@ session_start();
             font-size: 18px;
             margin-left: 20px;
         }
+        
+        .reply-delete{
+            border: none;
+            background-color: #f0f2f5;
+        }
 
         .form-group {
             margin-bottom: 10px;

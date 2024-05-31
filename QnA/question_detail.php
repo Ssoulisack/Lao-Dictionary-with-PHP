@@ -101,7 +101,8 @@ if ($id) {
                                     <form action="deleteComment.php" method="POST">
                                         <input type="hidden" name="c_id" value="<?php echo $comment['c_id']; ?>">
                                         <input type="hidden" name="q_id" value="<?php echo $comment['q_id']; ?>">
-                                        <li><input type="submit" class="dropdown-item" name="delete" value="ລົບຄຳຄິດເຫັນ"></li>
+                                        <li><input type="submit" onclick="return confirm('Do you want to delete this information')"
+                                                class="dropdown-item" name="delete" value="ລົບຄຳຄິດເຫັນ"></li>
                                     </form>
                                 </ul>
                             <?php } ?>
@@ -159,6 +160,14 @@ if ($id) {
                                     <div class="comment-actions">
                                         <span class="text-muted">ເວລາ: </span>
                                         <span class="text-muted time" data-time="<?php echo $reply['create_at']; ?>"></span>
+                                        <?php if ($reply['user_id'] == $_SESSION['id'] && $reply['username'] == $_SESSION['username']) { ?>
+                                        <form action="deleteReply.php" method="POST">
+                                            <input type="hidden" name="c_id" value="<?php echo $reply['c_id']; ?>">
+                                            <input type="hidden" name="q_id" value="<?php echo $reply['q_id']; ?>">
+                                            <input type="submit" name="delete" onclick="return confirm('Do you want to delete this information')"
+                                                class="reply-delete action" value="ລົບ">
+                                        </form>
+                                        <?php }?>
                                     </div>
                                 </div>
                                 <?php
@@ -166,7 +175,8 @@ if ($id) {
                         } ?>
                     </div>
                     <?php if ($replyCount > 0) { ?>
-                        <button class="toggle-replies" onclick="toggleReplies(<?php echo $comment['c_id']; ?>)">View
+                        <button class="toggle-replies"
+                            onclick="toggleReplies(<?php echo $comment['c_id']; ?>, <?php echo $replyCount; ?>)">View
                             <?php echo $replyCount; ?> replies</button>
                     <?php } ?>
                 <?php } ?>
@@ -309,16 +319,16 @@ if ($id) {
         document.getElementById('edit-comment-form').reset(); // Reset form fields if needed
         // Optionally, you can hide the form or perform any other actions here
     });
-    
-    function toggleReplies(commentId) {
+
+    function toggleReplies(commentId, replyCount) {
         const replies = document.getElementById(`replies-${commentId}`);
-        const toggleButton = document.querySelector(`button[onclick="toggleReplies(${commentId})"]`);
+        const toggleButton = document.querySelector(`button[onclick="toggleReplies(${commentId}, ${replyCount})"]`);
         if (replies.style.display === 'none' || replies.style.display === '') {
             replies.style.display = 'block';
             toggleButton.textContent = 'Hide replies';
         } else {
             replies.style.display = 'none';
-            toggleButton.textContent = `View replies`;
+            toggleButton.textContent = `View ${replyCount} replies`;
         }
     }
 </script>
