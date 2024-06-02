@@ -2,7 +2,28 @@
 $title = "reportVocab";
 require_once "../db/config.php";
 require_once "header_report.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
+$defaultConfig = (new Mpdf\Config\ConfigVariables())->getDefaults();
+$fontDirs = $defaultConfig['fontDir'];
+
+$defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
+$fontData = $defaultFontConfig['fontdata'];
+
+$mpdf = new \Mpdf\Mpdf([
+    'fontDir' => array_merge($fontDirs, [
+        __DIR__ . '/tmp',
+    ]),
+    'fontdata' => $fontData + [
+        'NotoSerifLao' => [
+            'th' => 'NotoSerifLao-Thin.ttf',
+            'R' => 'NotoSerifLao-Regular.ttf',
+            'B' => 'NotoSerifLao-Bold.ttf',
+            'L' => 'NotoSerifLao-Light.ttf',
+        ]
+    ],
+    'default_font' => 'NotoSerifLao-Thin'
+]);
 // Set default date values
 $defaultStart = '2024-05-10';
 $defaultEnd = '2024-05-24';
@@ -17,45 +38,72 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['date-start']) && isset
     $end = $defaultEnd;
 }
 
+$vocabNumRow = $reports->vocabNumRows();
+// Setting the number of rows to display in a page.
+$rows_per_page = 30;
+
+// calculating the number of pages.
+$pages = ceil($vocabNumRow / $rows_per_page);
+
+// Setting the start from value.
+$pageStart = 0;  // Use a different name to avoid confusion with the date variable $start
+
+// If the user clicks on the pagination buttons.
+if (isset($_GET['page_nr'])) {
+    $page = $_GET['page_nr'] - 1;
+    $pageStart = $page * $rows_per_page;
+}
+
 // Fetch vocabulary information
-$vocabInfo = $reports->reportVocab($start, $end);
-$vocabInfo->execute();
-$index = 1;
+$vocabInfo = $reports->reportVocab($start, $end, $pageStart, $rows_per_page);
+
+if ($vocabInfo) {
+    $index = $page * $rows_per_page + 1;
+} else {
+    echo "Failed to retrieve vocabulary information.";
+}
 ?>
+
+
 <main class="container">
     <section id="date">
-        <form action="" method="POST" class="text-end">
-            <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-start" id="start" value="<?php echo $start; ?>">
-            <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-end" id="end" value="<?php echo $end; ?>">
-            <input type="submit" class="btn btn-secondary btn-sm rounded-4" value="ເລືອກວັນທີ">
-        </form>
-    </section>
-    <div class="header my-4">
-        <div>
-        </div>
-        <div class="text-center">
-            <p>ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
-            <p>ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="text-center">
-                <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
-                <p class="fw-bold" style="font-size: 15px;">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
+        <div class="mt-3">
+            <form action="" method="POST" class="text-end mx-2">
+                <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-start"
+                id="start" value="<?php echo $start; ?>">
+                <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-end"
+                id="end" value="<?php echo $end; ?>">
+                <input type="submit" class="btn btn-secondary btn-sm rounded-4" value="ເລືອກວັນທີ">
+            </form>
+            <div class="text-end my-2">
+                <a href="reportVocab.pdf" target="_blank" class="btn btn-primary rounded-3">ດາວໂຫຼດລາຍງານ</a>
             </div>
         </div>
-        <div id="title" class="mt-4 text-center">
-            <h3 class="fw-bold">ລາຍງານຄຳສັບ</h3>
+
+    </section>
+    <?php ob_start(); ?>
+        <div class="header text-center">
+            <div class="">
+                <p class="">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
+                <p class="">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
+            </div>
+            <div class="">
+                <div class="">
+                    <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
+                    <p class="">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
+                    <p class="fs-2">ລາຍງານຄຳສັບ</p>
+                </div>
+            </div>
         </div>
         <div class="body">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered">
                 <thead>
-                    <tr class="text-center">
+                    <tr class="table-row">
                         <th scope="col">ລຳດັບ</th>
                         <th scope="col">ຄຳສັບ</th>
                         <th scope="col">ປະເພດ</th>
                         <th scope="col">ຄຳອະທິບາຍ</th>
-                        <th scope="col">ຕົວຢ່າງປະໂຫຍກ</th>
-                        <th scope="col">ເວລາ</th>
+                        <th scope="col">ວັນທີ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,19 +111,87 @@ $index = 1;
                         $time = $row['date'];
                         $date = explode(' ', $time)[0]; // Extract the date part
                         ?>
-                        <tr class="">
-                            <th class="align-middle text-center" scope="row"><?php echo $index++; ?></th>
-                            <td class="col-1 align-middle text-center"><?php echo $row['vocabulary'] ?></td>
-                            <td class="col-2 align-middle text-center"><?php echo $row['pos_name2'] ?></td>
-                            <td class="col-4"><?php echo $row['definition'] ?></td>
-                            <td class="col-3"><?php echo $row['example'] ?></td>
-                            <td class="col-2 align-middle text-center"><?php echo $date; // Output the date only ?></td>
+                        <tr class="content">
+                            <th scope="row" style="font-family: 'Times New Roman, Times, serif'; font-weight: 400;">
+                                <?php echo $index++; ?>
+                            </th>
+                            <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
+                            <td  class="content-row pos"><?php echo $row['pos_name2'] ?></td>
+                            <td  class="content-row definition" width="60%"><?php echo $row['definition'] ?></td>
+                            <td  class="content-row date"
+                                style="font-family: 'Times New Roman, Times, serif'; font-weight: 400;">
+                                <?php echo $date; // Output the date only ?>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
         </div>
-    </div>
+        <?php
+        $html = ob_get_contents();
+        $mpdf->WriteHTML($html);
+        $mpdf->Output("reportVocab.pdf");
+        ob_end_flush();
+        ?>
+        <!-- pagination -->
+        <nav aria-label="Page navigation" style="margin-top: 2rem;">
+            <!-- Display the page info text -->
+            <div class="d-flex justify-content-center">
+                <?php if (!isset($_GET['page_nr'])) { ?>
+                    <?php $page = 1; ?>
+                <?php } else { ?>
+                    <?php $page = $_GET['page_nr']; ?>
+                <?php } ?>
+                <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
+            </div>
+            <ul class="pagination justify-content-center">
+                <!-- Go to the first page -->
+                <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
+                <!-- Go to the previous page -->
+                <li class="page-item">
+                    <?php if (isset($_GET['page_nr']) && $_GET['page_nr'] > 1) { ?>
+                        <a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] - 1 ?>">Previous</a>
+                        <?php
+                    } else { ?>
+                        <a class="page-link">Previous</a>
+                    <?php } ?>
+                </li>
+                <?php if (!isset($_GET['page_nr'])) { ?>
+                    <li class="page-item"><a class="page-link active" href="?page_nr=1">1</a>
+                        <?php $count_from = 2; ?></li>
+                <?php } else { ?>
+                    <?php $count_from = 1; ?>
+                <?php } ?>
+                <?php for ($num = $count_from; $num <= $pages; $num++) { ?>
+                    <?php if ($num == @$_GET['page_nr']) { ?>
+                        <li class="page-item"><a class="page-link active"
+                                href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
+                    <?php } else { ?>
+                        <li class="page-item"><a class="page-link " href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
+                        </li>
+                    <?php } ?>
+                <?php } ?>
+
+                <!-- Go to the next page -->
+                <?php
+                if (isset($_GET['page_nr'])) { ?>
+                    <?php if ($_GET['page_nr'] >= $pages) { ?>
+                        <li class="page-item"><a class="page-link" href="">Next</a></li>
+                    <?php } else { ?>
+                        <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a>
+                        </li>
+                    <?php } ?>
+                <?php } else { ?>
+                    <li class="page-item"><a class="page-link" href="?page_nr=2">Next</a></li>
+                <?php } ?>
+                <!-- Go to the Last page -->
+                <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
+            </ul>
+        </nav>
+    </body>
+
+    </html>
 </main>
 </body>
+
 </html>
