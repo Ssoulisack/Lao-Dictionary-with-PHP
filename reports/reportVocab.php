@@ -11,6 +11,9 @@ $defaultFontConfig = (new Mpdf\Config\FontVariables())->getDefaults();
 $fontData = $defaultFontConfig['fontdata'];
 
 $mpdf = new \Mpdf\Mpdf([
+    'mode' => 'utf-8',
+    'format' => [210, 297],
+    'orientation' => 'P',
     'fontDir' => array_merge($fontDirs, [
         __DIR__ . '/tmp',
     ]),
@@ -24,9 +27,11 @@ $mpdf = new \Mpdf\Mpdf([
     ],
     'default_font' => 'NotoSerifLao-Thin'
 ]);
+
 // Set default date values
-$defaultStart = '2024-05-10';
-$defaultEnd = '2024-05-24';
+$defaultStart = '2024-04-01';
+date_default_timezone_set('Asia/Vientiane'); // Set the timezone to Laos
+$defaultEnd = date('Y-m-d');
 
 // Check if form is submitted and get the dates
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['date-start']) && isset($_POST['date-end'])) {
@@ -52,6 +57,8 @@ $pageStart = 0;  // Use a different name to avoid confusion with the date variab
 if (isset($_GET['page_nr'])) {
     $page = $_GET['page_nr'] - 1;
     $pageStart = $page * $rows_per_page;
+} else {
+    $page = 1 - 1;
 }
 
 // Fetch vocabulary information
@@ -64,75 +71,86 @@ if ($vocabInfo) {
 }
 ?>
 
-
 <main class="container">
     <section id="date">
         <div class="mt-3">
             <form action="" method="POST" class="text-end mx-2">
                 <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-start"
-                id="start" value="<?php echo $start; ?>">
+                       id="start" value="<?php echo $start; ?>">
                 <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-end"
-                id="end" value="<?php echo $end; ?>">
+                       id="end" value="<?php echo $end; ?>">
                 <input type="submit" class="btn btn-secondary btn-sm rounded-4" value="ເລືອກວັນທີ">
             </form>
             <div class="text-end my-2">
-                <a href="reportVocab.pdf" target="_blank" class="btn btn-primary rounded-3">ດາວໂຫຼດລາຍງານ</a>
+                <a href="report.pdf" target="_blank" class="btn btn-primary rounded-3">ດາວໂຫຼດລາຍງານ</a>
             </div>
         </div>
-
     </section>
     <?php ob_start(); ?>
-        <div class="header text-center">
-            <div class="">
-                <p class="">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
-                <p class="">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
-            </div>
-            <div class="">
-                <div class="">
+    <html>
+    <head>
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+    <div class="header">
+        <div class="slogan">
+            <p class="text">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
+            <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
+        </div>
+        <div class="title">
+            <div class="institute">
+                <div class="logo-ins">
                     <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
-                    <p class="">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
-                    <p class="fs-2">ລາຍງານຄຳສັບ</p>
+                </div>
+                <div class="ins">
+                    <p class="name-ins text">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
                 </div>
             </div>
+            <div class="report-title">
+                <p class="text-report">ລາຍງານຄຳສັບ</p>
+            </div>
         </div>
-        <div class="body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="table-row">
-                        <th scope="col">ລຳດັບ</th>
-                        <th scope="col">ຄຳສັບ</th>
-                        <th scope="col">ປະເພດ</th>
-                        <th scope="col">ຄຳອະທິບາຍ</th>
-                        <th scope="col">ວັນທີ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($row = $vocabInfo->fetch(PDO::FETCH_ASSOC)) {
-                        $time = $row['date'];
-                        $date = explode(' ', $time)[0]; // Extract the date part
-                        ?>
-                        <tr class="content">
-                            <th scope="row" style="font-family: 'Times New Roman, Times, serif'; font-weight: 400;">
-                                <?php echo $index++; ?>
-                            </th>
-                            <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
-                            <td  class="content-row pos"><?php echo $row['pos_name2'] ?></td>
-                            <td  class="content-row definition" width="60%"><?php echo $row['definition'] ?></td>
-                            <td  class="content-row date"
-                                style="font-family: 'Times New Roman, Times, serif'; font-weight: 400;">
-                                <?php echo $date; // Output the date only ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-        <?php
-        $html = ob_get_contents();
-        $mpdf->WriteHTML($html);
-        $mpdf->Output("reportVocab.pdf");
-        ob_end_flush();
-        ?>
+    </div>
+    <div class="body">
+        <table class="table-report">
+            <thead>
+            <tr class="table-title">
+                <th class="number"></th>
+                <th class="vocab">ຄຳສັບ</th>
+                <th class="type">ປະເພດ</th>
+                <th class="description">ຄຳອະທິບາຍ</th>
+                <th class="date">ວັນທີ</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php while ($row = $vocabInfo->fetch(PDO::FETCH_ASSOC)) {
+                $time = $row['date'];
+                $date = explode(' ', $time)[0]; // Extract the date part
+                ?>
+                <tr class="content">
+                    <th scope="row" class="number"><?php echo $index++; ?></th>
+                    <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
+                    <td class="content-row pos"><?php echo $row['pos_name2'] ?></td>
+                    <td class="content-row definition"><?php echo $row['definition'] ?></td>
+                    <td class="content-row date"><?php echo $date; ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    </body>
+    </html>
+    <?php
+    $stylesheet = file_get_contents('style.css');
+    $html = ob_get_contents();
+    // ob_end_clean();
+    ob_end_flush();
+    $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
+    $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+    $mpdf->Output("report.pdf");
+    ?>
+</main>
+
         <!-- pagination -->
         <nav aria-label="Page navigation" style="margin-top: 2rem;">
             <!-- Display the page info text -->

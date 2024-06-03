@@ -8,6 +8,16 @@ class Controller
     {
         $this->db = $con;
     }
+    //allVocab
+    function allVocab(){
+        try {
+            $sql = "SELECT * FROM vocabulary";
+            $stmt = $this->db->query($sql);
+            return $stmt;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
     //Show info Characters & Part of speech
     function infoCharacter()//(logging/add_vocab & character_info_login & character_info & vocab_info_login & vocab_info) 
     {

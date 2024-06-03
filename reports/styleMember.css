@@ -1,0 +1,67 @@
+/* General table styling */
+.table-report {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-title th {
+    background-color: #0090c9; /* Teal background color */
+    padding: 10px;
+    text-align: center;
+    font-weight: normal; /* Set font-weight to normal */
+    border: 1px solid lightgrey; /* Add border */
+}
+
+.table-report th, .table-report td {
+    border: 1px solid lightgrey; /* Add border to cells */
+    padding: 10px;
+}
+.head{
+    color: #fff;
+}
+
+.table-report td {
+    text-align: center;
+}
+
+.content-row {
+    text-align: center;
+}
+
+/* Specific column widths */
+.table-report th.number, .table-report td.number {
+    width: 5%;
+    font-family: "Times New Roman", Times, serif; /* Set font family to Times New Roman */
+}
+
+.table-report th.username, .table-report td.username {
+    width: 15%;
+}
+
+.table-report th.email, .table-report td.email {
+    width: 20%;
+}
+
+.table-report th.name, .table-report td.name {
+    width: 20%;
+}
+
+.table-report th.tel, .table-report td.tel {
+    width: 10%;
+}
+
+.table-report th.address, .table-report td.address {
+    width: 20%;
+}
+
+.table-report th.date, .table-report td.date {
+    width: 10%;
+}
+
+/* Header styling */
+.header{
+    text-align: center;
+}
+.text-report{
+    font-size: 2rem;
+}

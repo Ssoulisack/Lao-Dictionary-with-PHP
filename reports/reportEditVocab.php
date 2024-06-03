@@ -13,7 +13,7 @@ $fontData = $defaultFontConfig['fontdata'];
 $mpdf = new \Mpdf\Mpdf([
     'mode' => 'utf-8',
     'format' => [210, 297],
-    'orientation' => 'P',
+    'orientation' => 'L',
     'fontDir' => array_merge($fontDirs, [
         __DIR__ . '/tmp',
     ]),
@@ -43,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['date-start']) && isset
     $end = $defaultEnd;
 }
 
-$eplNumRow = $reports->eplNumRows();
+$vocabNumRow = $reports->editVocabNumRows();
 // Setting the number of rows to display in a page.
 $rows_per_page = 30;
 
 // calculating the number of pages.
-$pages = ceil($eplNumRow / $rows_per_page);
+$pages = ceil($vocabNumRow / $rows_per_page);
 
 // Setting the start from value.
 $pageStart = 0;  // Use a different name to avoid confusion with the date variable $start
@@ -62,95 +62,101 @@ if (isset($_GET['page_nr'])) {
 }
 
 // Fetch vocabulary information
-$eplReport = $reports->reportEpl($start, $end, $pageStart, $rows_per_page);
+$editVocabReport = $reports->reportEditVocab($start, $end, $pageStart, $rows_per_page);
 
-if ($eplReport) {
+if ($editVocabReport) {
     $index = $page * $rows_per_page + 1;
 } else {
     echo "Failed to retrieve vocabulary information.";
 }
 ?>
+
 <main class="container">
     <section id="date">
-        <div>
-            <div class="text-end my-2">
-                <a href="report.pdf" target="_blank" class="btn btn-primary rounded-3">ດາວໂຫຼດລາຍງານ</a>
-            </div>
-            <form action="" method="POST" class="text-end">
+        <div class="mt-3">
+            <form action="" method="POST" class="text-end mx-2">
                 <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-start"
                     id="start" value="<?php echo $start; ?>">
                 <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-end"
                     id="end" value="<?php echo $end; ?>">
                 <input type="submit" class="btn btn-secondary btn-sm rounded-4" value="ເລືອກວັນທີ">
             </form>
+            <div class="text-end my-2">
+                <a href="report.pdf" target="_blank" class="btn btn-primary rounded-3">ດາວໂຫຼດລາຍງານ</a>
+            </div>
         </div>
-
     </section>
     <?php ob_start(); ?>
     <html>
 
     <head>
-        <link href="styleMember.css" rel="stylesheet">
+        <link href="styleEditDefinition.css" rel="stylesheet">
     </head>
 
     <body>
-    <div class="header">
-        <div class="slogan">
-            <p class="text">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
-            <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
-        </div>
-        <div class="title">
-            <div class="institute">
-                <div class="logo-ins">
-                    <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
+        <div class="header">
+            <div class="slogan">
+                <p class="text">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
+                <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
+            </div>
+            <div class="title">
+                <div class="institute">
+                    <div class="logo-ins">
+                        <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
+                    </div>
+                    <div class="ins">
+                        <p class="name-ins text">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
+                    </div>
                 </div>
-                <div class="ins">
-                    <p class="name-ins text">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
+                <div class="report-title">
+                    <p class="text-report">ລາຍງານຄຳສັບ</p>
                 </div>
             </div>
-            <div class="report-title">
-                <p class="text-report">ລາຍງານຜູ້ຊ່ຽວຊານ</p>
-            </div>
         </div>
-    </div>
-    <div class="body">
-        <table class="table-report">
-            <thead>
-                <tr class="table-title">
-                    <th class="head number">#</th>
-                    <th class="head username">ຊື່ຜູ້ໃຊ້</th>
-                    <th class="head email">ອີເມວ</th>
-                    <th class="head name">ຊື່ ແລະ ນາມສະກຸນ</th>
-                    <th class="head tel">ເບີໂທ</th>
-                    <th class="head address">ທີ່ຢູ່</th>
-                    <th class="head date">ວັນທີລົງທະບຽນ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $index = 1;
-                while ($row = $eplReport->fetch(PDO::FETCH_ASSOC)) {
-                    $time = $row['date'];
-                    $date = explode(' ', $time)[0]; // Extract the date part
-                ?>
-                    <tr class="content">
-                        <th scope="row" class="number"><?php echo $index++; ?></th>
-                        <td class="username"><?php echo $row['username'] ?></td>
-                        <td class="email"><?php echo $row['email'] ?></td>
-                        <td class="name"><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
-                        <td class="tel"><?php echo $row['telephone'] ?></td>
-                        <td class="address"><?php echo $row['address'] ?></td>
-                        <td class="date"><?php echo $date; ?></td>
+        <div class="body">
+            <table class="table-report">
+                <thead>
+                    <tr class="table-title">
+                        <th class="number"></th>
+                        <th class="vocab">ຄຳສັບ</th>
+                        <th class="type">ປະເພດ</th>
+                        <th class="description">ຄຳອະທິບາຍ</th>
+                        <th class="example">ຕົວຢ່າງ</th>
+                        <th class="editor">ຜູ້ແກ້ໄຂ</th>
+                        <th class="status">ສະຖານະ</th>
+                        <th class="verify">ຜູ້ກວດສອບ</th>
+                        <th class="date">ວັນທີ</th>
                     </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    <?php while ($row = $editVocabReport->fetch(PDO::FETCH_ASSOC)) {
+                        $time = $row['date'];
+                        $date = explode(' ', $time)[0]; // Extract the date part
+                        ?>
+                        <tr class="content">
+                            <th scope="row" class="number"><?php echo $index++; ?></th>
+                            <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
+                            <td class="content-row pos"><?php echo $row['pos_name2'] ?></td>
+                            <td class="content-row definition"><?php echo $row['new_definition'] ?></td>
+                            <td class="content-row definition"><?php echo $row['new_example'] ?></td>
+                            <td class="content-row definition"><?php echo $row['username'] ?></td>
+                            <td class="content-row definition"><?php if ($row['status'] == 'approve') {
+                                echo 'ແກ້ໄຂ';
+                            } else {
+                                  echo 'ປະຕິເສດ';
+                            } ?></td>
+                            <td class="content-row definition"><?php echo $row['verifyBy'] ?></td>
+                            <td class="content-row date"><?php echo $date; ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </body>
 
     </html>
     <?php
-    $stylesheet = file_get_contents('styleMember.css');
+    $stylesheet = file_get_contents('styleEditDefinition.css');
     $html = ob_get_contents();
     // ob_end_clean();
     ob_end_flush();

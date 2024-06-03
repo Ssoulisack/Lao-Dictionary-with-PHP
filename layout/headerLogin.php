@@ -51,9 +51,9 @@ session_start();
                 aria-expanded="false">ລາຍງານ</a>
               <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="reports/reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="reports/reportMember.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reports/reportEditVocab.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
                 <li class="dropdown-item"><a href="reports/reportEpl.php" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
+                <li class="dropdown-item"><a href="reports/reportMember.php" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
               </ul>
             </li>
           <?php } elseif ($_SESSION["urole"] == "languageExpert") { ?>
