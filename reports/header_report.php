@@ -14,7 +14,7 @@ session_start();
   <link rel="stylesheet" href="../asset/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../asset/css/main.css">
   <script src="../asset/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
-  
+
 </head>
 
 <body>
@@ -51,10 +51,12 @@ session_start();
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ລາຍງານ</a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
+                <li class="dropdown-item"><a href="reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reportEditVocab.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reportEditDefinition.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
+                <li class="dropdown-item"><a href="reportEpl.php" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
+                <li class="dropdown-item"><a href="reportMember.php" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
               </ul>
             </li>
           <?php } elseif ($_SESSION["urole"] == "languageExpert") { ?>
@@ -62,10 +64,11 @@ session_start();
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ລາຍງານ</a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
+                <li class="dropdown-item"><a href="reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reportEditVocab.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reportEditDefinition.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
+                <li class="dropdown-item"><a href="reportEpl.php" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
               </ul>
             </li>
           <?php } elseif ($_SESSION["urole"] == "member") { ?>
@@ -73,8 +76,8 @@ session_start();
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ລາຍງານ</a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reportEditVocab.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
               </ul>
             </li>
           <?php } else {

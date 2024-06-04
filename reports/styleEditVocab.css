@@ -1,0 +1,63 @@
+.header{
+    text-align: center;
+}
+.text-report{
+    font-size: 2rem;
+}
+
+/* TABLE REPORT VOCAB */
+/* General table styling */
+.table-report {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-title th {
+    background-color: #3fa9ff; /* Teal background color */
+    padding: 10px;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: normal; /* Set font-weight to normal */
+    border: 1px solid lightgrey; /* Add border */
+}
+
+.table-report th, .table-report td {
+    border: 1px solid lightgrey; /* Add border to cells */
+    padding: 10px;
+}
+
+.table-report td {
+    text-align: center;
+}
+
+/* Specific column widths */
+.table-report th.number, .table-report td.number td.date {
+    width: 10%;
+    font-family: "Times New Roman", Times, serif; /* Set font family to Times New Roman */
+    font-weight: bold;
+}
+
+.table-report th.oldVocab, .table-report td.oldVocab {
+    width: 15%;
+}
+
+.table-report th.newVocab, .table-report td.newVocab {
+    width: 15%;
+}
+
+.table-report th.username, .table-report td.username {
+    width: 15%;
+}
+.table-report th.status, .table-report td.status {
+    width: 15%;
+}
+.table-report th.verify, .table-report td.verify {
+    width: 15%;
+}
+.table-report th.date, .table-report td.date {
+    width: 15%;
+}
+
+.content-row {
+    text-align: left;
+}

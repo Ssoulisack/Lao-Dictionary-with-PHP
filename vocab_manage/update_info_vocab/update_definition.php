@@ -33,7 +33,8 @@ if (isset($_POST["update"])) {
 if(isset($_POST['reject'])){
     $edit_id = $_POST['edit_id'];
     $statusReject = 'rejected';
-    $reject_definition = $controller->reject_req($edit_id, $statusReject);
+    $verify_id = $_SESSION['id'];
+    $reject_definition = $controller->reject_req($edit_id, $statusReject, $verify_id);
     if($reject_definition){
         $_SESSION["warning"] = "ປະຕິເສດການແກ້ໄຂ";
         header('location:../listEdit_req.php');

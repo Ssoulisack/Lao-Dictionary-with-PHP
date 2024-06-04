@@ -8,7 +8,8 @@ if (!isset($_GET['id'])) {
 } else {
     $id = $_GET['id'];
     $status = 'rejected';
-    $cancelVocab = $controller->cancelVocab($id, $status);
+    $verify_id = $_SESSION['id'];
+    $cancelVocab = $controller->cancelVocab($id, $status, $verify_id);
     if ($cancelVocab) {
         $_SESSION["warning"] = "ປະຕິເສດການແກ້ໄຂ";
         header('location:listVocab_req.php');

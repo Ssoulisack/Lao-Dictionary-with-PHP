@@ -18,6 +18,16 @@ class Controller
             return $e->getMessage();
         }
     }
+    //GET part of speech
+    function getPos(){
+        try {
+            $sql = "SELECT * FROM parts_of_speech";
+            $stmt = $this->db->query($sql);
+            return $stmt;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
     //Show info Characters & Part of speech
     function infoCharacter()//(logging/add_vocab & character_info_login & character_info & vocab_info_login & vocab_info) 
     {
@@ -373,13 +383,14 @@ class Controller
             return false;
         }
     }
-    function cancelVocab($id, $status)//vocab_manage/lCancel_vocab.php
+    function cancelVocab($id, $status, $verify_id)//vocab_manage/lCancel_vocab.php
     {
         try {
             // $sql = "DELETE FROM edit_vocab WHERE edit_id = :edit_id";
-            $sql = "UPDATE edit_vocab SET status = :status WHERE edit_id = :edit_id";
+            $sql = "UPDATE edit_vocab SET status = :status, verifyBy = :verifyBy WHERE edit_id = :edit_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":edit_id", $id);
+            $stmt->bindParam(":verifyBy", $verify_id);
             $stmt->bindParam(":status", $status);
             $stmt->execute();
             return true;
@@ -536,13 +547,14 @@ class Controller
             return false;
         }
     }
-    function reject_req($edit_id, $statusReject)//vocab_manage/update_info_vocab/rejectMethod
+    function reject_req($edit_id, $statusReject, $verify_id)//vocab_manage/update_info_vocab/rejectMethod
     {
         try {
-            $sql = "UPDATE edit_definition SET status = :status WHERE edit_id = :edit_id";
+            $sql = "UPDATE edit_definition SET status = :status, verifyBy = :verifyBy WHERE edit_id = :edit_id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":edit_id", $edit_id);
             $stmt->bindParam(":status", $statusReject);
+            $stmt->bindParam(":verifyBy", $verify_id);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {

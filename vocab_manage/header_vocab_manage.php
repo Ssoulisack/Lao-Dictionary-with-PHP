@@ -37,9 +37,11 @@ session_start();
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ການລົງທະບຽນ</a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="logging/registration_Request.php" class="nav-link">ຄຳຂໍລົງທະບຽນຜູ້ຊ່ຽວຊານ</a>
+                <li class="dropdown-item"><a href="logging/registration_Request.php"
+                    class="nav-link">ຄຳຂໍລົງທະບຽນຜູ້ຊ່ຽວຊານ</a>
                 </li>
-                <li class="dropdown-item"><a href="logging/signupAdminForm.php" class="nav-link">ເພີ່ມຜູ້ດູແລລະບົບ</a></li>
+                <li class="dropdown-item"><a href="logging/signupAdminForm.php" class="nav-link">ເພີ່ມຜູ້ດູແລລະບົບ</a>
+                </li>
               </ul>
             </li>
           <?php } ?>
@@ -48,10 +50,14 @@ session_start();
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ລາຍງານ</a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a>
+                </li>
+                <li class="dropdown-item"><a href="../reports/reportEditVocab.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportEditDefinition.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportEpl.php" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportMember.php" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
               </ul>
             </li>
           <?php } elseif ($_SESSION["urole"] == "languageExpert") { ?>
@@ -59,10 +65,14 @@ session_start();
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ລາຍງານ</a>
               <ul class="dropdown-menu">
-              <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a>
+                </li>
+                <li class="dropdown-item"><a href="../reports/reportEditVocab.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportEditDefinition.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportEpl.php" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportMember.php" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
               </ul>
             </li>
           <?php } elseif ($_SESSION["urole"] == "member") { ?>
@@ -70,43 +80,45 @@ session_start();
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">ລາຍງານ</a>
               <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a>
+                </li>
+                <li class="dropdown-item"><a href="../reports/reportEditVocab.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
               </ul>
             </li>
           <?php } else {
             header("Location: ../login.php");
             exit();
-          }?>
-          <?php if (isset ($_SESSION["id"])) { ?>
+          } ?>
+          <?php if (isset($_SESSION["id"])) { ?>
             <li class="nav-item dropdown">
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
                 aria-expanded="false">Hello,
                 <?php echo $_SESSION["username"] ?>
               </a>
               <?php if ($_SESSION["urole"] == "member") { ?>
-              <ul class="dropdown-menu">
-                <li class="dropdown-item"><a href="" class="nav-link">ຂໍ້ມູນແກ້ໄຂຄຳສັບ</a></li>
-                <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
-              </ul>
-              <?php }elseif ($_SESSION["urole"] == "languageExpert") {?>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-item"><a href="" class="nav-link">ຂໍ້ມູນແກ້ໄຂຄຳສັບ</a></li>
+                  <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
+                </ul>
+              <?php } elseif ($_SESSION["urole"] == "languageExpert") { ?>
                 <ul class="dropdown-menu">
                   <li class="dropdown-item"><a href="listVocab_req.php" class="nav-link">ຄຳຂໍແກ້ໄຂຄຳສັບ</a></li>
                   <li class="dropdown-item"><a href="listEdit_req.php" class="nav-link">ຄຳຂໍແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
                   <li class="dropdown-item"><a href="../logging/add_vocab.php" class="nav-link">ເພີ່ມຄຳສັບ</a></li>
                   <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
                 </ul>
-                <?php }elseif ($_SESSION["urole"] == "admin") {?>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-item"><a href="../logging/add_vocab.php" class="nav-link">ເພີ່ມຄຳສັບ</a></li>
-                    <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
-                  </ul>
+              <?php } elseif ($_SESSION["urole"] == "admin") { ?>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-item"><a href="../logging/add_vocab.php" class="nav-link">ເພີ່ມຄຳສັບ</a></li>
+                  <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
+                </ul>
               <?php } ?>
             </li>
           <?php } else {
             header("Location: ../login.php");
             exit();
-          }?>
+          } ?>
         </ul>
       </div>
     </div>

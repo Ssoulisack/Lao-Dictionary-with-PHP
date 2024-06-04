@@ -52,6 +52,7 @@ session_start();
               <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="reports/reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a></li>
                 <li class="dropdown-item"><a href="reports/reportEditVocab.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="reports/reportEditDefinition.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
                 <li class="dropdown-item"><a href="reports/reportEpl.php" class="nav-link">ລາຍງານຜູ້ຊ່ຽວຊານ</a></li>
                 <li class="dropdown-item"><a href="reports/reportMember.php" class="nav-link">ລາຍງານສະມາຊິກ</a></li>
               </ul>

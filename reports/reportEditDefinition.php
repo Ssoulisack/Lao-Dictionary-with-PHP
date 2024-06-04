@@ -13,7 +13,7 @@ $fontData = $defaultFontConfig['fontdata'];
 $mpdf = new \Mpdf\Mpdf([
     'mode' => 'utf-8',
     'format' => [210, 297],
-    'orientation' => 'P',
+    'orientation' => 'L',
     'fontDir' => array_merge($fontDirs, [
         __DIR__ . '/tmp',
     ]),
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['date-start']) && isset
     $end = $defaultEnd;
 }
 
-$vocabNumRow = $reports->editVocabNumRows();
+$vocabNumRow = $reports->editDefinitionNumRows();
 // Setting the number of rows to display in a page.
 $rows_per_page = 30;
 
@@ -62,9 +62,9 @@ if (isset($_GET['page_nr'])) {
 }
 
 // Fetch vocabulary information
-$editVocabReport = $reports->reportEditVocab($start, $end, $pageStart, $rows_per_page);
+$editDefinition = $reports->reportEditDefinition($start, $end, $pageStart, $rows_per_page);
 
-if ($editVocabReport) {
+if ($editDefinition) {
     $index = $page * $rows_per_page + 1;
 } else {
     echo "Failed to retrieve vocabulary information.";
@@ -109,7 +109,7 @@ if ($editVocabReport) {
                     </div>
                 </div>
                 <div class="report-title">
-                    <p class="text-report">ລາຍງານແກ້ໄຂຄຳສັບ</p>
+                    <p class="text-report">ລາຍງານແກ້ໄຂຄຳອະທິບາຍສັບ</p>
                 </div>
             </div>
         </div>
@@ -118,8 +118,10 @@ if ($editVocabReport) {
                 <thead>
                     <tr class="table-title">
                         <th class="number"></th>
-                        <th class="oldVocab">ຄຳສັບເກົ່າ</th>
-                        <th class="newVocab">ຄຳສັບໃໝ່</th>
+                        <th class="vocab">ຄຳສັບ</th>
+                        <th class="type">ປະເພດ</th>
+                        <th class="description">ຄຳອະທິບາຍ</th>
+                        <th class="example">ຕົວຢ່າງ</th>
                         <th class="editor">ຜູ້ແກ້ໄຂ</th>
                         <th class="status">ສະຖານະ</th>
                         <th class="verify">ຜູ້ກວດສອບ</th>
@@ -127,21 +129,23 @@ if ($editVocabReport) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($row = $editVocabReport->fetch(PDO::FETCH_ASSOC)) {
+                    <?php while ($row = $editDefinition->fetch(PDO::FETCH_ASSOC)) {
                         $time = $row['date'];
                         $date = explode(' ', $time)[0]; // Extract the date part
                         ?>
                         <tr class="content">
                             <th scope="row" class="number"><?php echo $index++; ?></th>
-                            <td class="content-row oldVocab"><?php echo $row['old_vocab'] ?></td>
-                            <td class="content-row newVocab"><?php echo $row['new_vocab'] ?></td>
-                            <td class="content-row username"><?php echo $row['username'] ?></td>
-                            <td class="content-row status"><?php if ($row['status'] == 'approve') {
+                            <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
+                            <td class="content-row pos"><?php echo $row['pos_name2'] ?></td>
+                            <td class="content-row definition"><?php echo $row['new_definition'] ?></td>
+                            <td class="content-row definition"><?php echo $row['new_example'] ?></td>
+                            <td class="content-row definition"><?php echo $row['username'] ?></td>
+                            <td class="content-row definition"><?php if ($row['status'] == 'approve') {
                                 echo 'ແກ້ໄຂ';
                             } else {
                                   echo 'ປະຕິເສດ';
                             } ?></td>
-                            <td class="content-row editor"><?php echo $row['verifyBy'] ?></td>
+                            <td class="content-row definition"><?php echo $row['verifyBy'] ?></td>
                             <td class="content-row date"><?php echo $date; ?></td>
                         </tr>
                     <?php } ?>
@@ -152,7 +156,7 @@ if ($editVocabReport) {
 
     </html>
     <?php
-    $stylesheet = file_get_contents('styleEditVocab.css');
+    $stylesheet = file_get_contents('styleEditDefinition.css');
     $html = ob_get_contents();
     // ob_end_clean();
     ob_end_flush();

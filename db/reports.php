@@ -9,7 +9,7 @@ class Report
         $this->db = $con;
     }
     // report_vocab.php (Get vocab info)
-    function reportVocab($start, $end, $pageStart, $rows_per_page)
+    function reportVocab($start, $end, $pageStart, $rows_per_page)//reportVocab.php
     {
         try {
             $sql = "SELECT a.vocabulary, a.character_id, c.pos_name2, b.definition, b.example, b.date 
@@ -32,12 +32,32 @@ class Report
         }
     }
 
-    function reportEditVocab($start, $end, $pageStart, $rows_per_page)//reportEditVocab.php
+    function reportEditDefinition($start, $end, $pageStart, $rows_per_page)//reportDefinition.php
     {
         try {
             $sql = "SELECT a.new_definition, a.new_example, a.username, a.status, a.date, d.username AS verifyBy, b.vocabulary, c.pos_name2 FROM edit_definition a
             INNER JOIN vocabulary b ON a.v_id = b.v_id
             INNER JOIN parts_of_speech c ON a.pos_id = c.pos_id
+            INNER JOIN expert_language d ON a.verifyBy = d.e_id
+                WHERE a.date BETWEEN :start AND :end
+                ORDER BY a.date ASC
+                LIMIT :pageStart, :rows_per_page";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":start", $start);
+            $stmt->bindParam(":end", $end);
+            $stmt->bindParam(":pageStart", $pageStart, PDO::PARAM_INT);
+            $stmt->bindParam(":rows_per_page", $rows_per_page, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    function reportEditVocab($start, $end, $pageStart, $rows_per_page)//reportEditVocab.php
+    {
+        try {
+            $sql = "SELECT a.old_vocab, a.new_vocab, a.username, a.status, a.date, d.username AS verifyBy FROM edit_vocab a
             INNER JOIN expert_language d ON a.verifyBy = d.e_id
                 WHERE a.date BETWEEN :start AND :end
                 ORDER BY a.date ASC
@@ -93,7 +113,7 @@ class Report
         }
     }
     // Num row questions_page.php
-    function vocabNumRows()
+    function vocabNumRows()//reportVocab.php
     {
         try {
             $sql = "SELECT COUNT(*)
@@ -109,11 +129,25 @@ class Report
             return false;
         }
     }
-    function editVocabNumRows()
+    function editVocabNumRows()//reportEditVocab.php
     {
         try {
             $sql = "SELECT COUNT(*)
                     FROM edit_vocab";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $rowCount = $stmt->fetchColumn();
+            return $rowCount;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    function editDefinitionNumRows()//reportDefinition.php
+    {
+        try {
+            $sql = "SELECT COUNT(*)
+                    FROM edit_definition";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $rowCount = $stmt->fetchColumn();

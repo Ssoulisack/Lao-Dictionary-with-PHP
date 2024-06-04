@@ -6,6 +6,7 @@ require_once "layout/checkLogin.php";
 require_once "layout/searchLogin.php";
 $result = $controller->infoCharacter();
 $allVocab = $controller->allVocab();
+$getPos = $controller->getPos();
 if (isset($_POST["search"])) {
   $vocab = $_POST["vocab"];
   $detail = $controller->searchVocab($vocab);
@@ -73,11 +74,11 @@ $results = $question->showQuestions($start, $rows_per_page);
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <button class="nav-link active" id="question-tab" data-bs-toggle="tab" data-bs-target="#question" type="button"
-          role="tab" aria-controls="question" aria-selected="true">Home</button>
+          role="tab" aria-controls="question" aria-selected="true">ກະທູ້</button>
         <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
-          role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+          role="tab" aria-controls="nav-profile" aria-selected="false">ປະເພດຄຳສັບ</button>
         <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
-          role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+          role="tab" aria-controls="nav-contact" aria-selected="false">ອັບເດດຄຳສັບ</button>
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -152,7 +153,7 @@ $results = $question->showQuestions($start, $rows_per_page);
           </nav>
         <?php } else { ?>
           <div class="mt-2 rounded-2 d-flex justify-content-center  align-items-center" style="background-color: #458ae4">
-            <h1><i class="bi bi-caret-right text-light h3"> ກະທູ້ຄຳຖາມ</i></h1>
+            <h1><i class="bi bi-caret-right text-light h3">ກະທູ້ຄຳຖາມ</i></h1>
           </div>
           <hr>
           <?php while ($result = $results->fetch(PDO::FETCH_ASSOC)) { ?>
@@ -219,18 +220,32 @@ $results = $question->showQuestions($start, $rows_per_page);
         <?php } ?>
       </div>
     </div>
-    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">...
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+      <!-- show part of speech -->
+      <div class="bg-secondary d-flex justify-content-center align-items-center rounded-2 p-1 my-3">
+        <h3 class="mt-2 text-light">ປະເພດຄຳສັບໃນພາສາລາວ</h3>
+      </div>
+      <table class="table">
+        <thead>
+          <tr class="ps-2">
+            <th class="fw-bold fs-5" scope="col">ປະເພດຄຳສັບ</th>
+            <th class="fw-bold fs-5" scope="col">ຕົວອັກສອນຫຍໍ້</th>
+            <th class="fw-bold fs-5" scope="col">ຄຳອະທິບາຍ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php while ($row = $getPos->fetch(PDO::FETCH_ASSOC)) { ?>
+            <tr class="">
+              <th class="" scope="row"><?php echo '-' . $row['pos_name2'] . ', ' . $row['pos_name1'] . '.' ?></th>
+              <td class="text-center"><?php echo $row['short_name'] ?></td>
+              <td class=""><?php echo $row['description'] ?></td>
+            </tr>
+          <?php } ?>
+        </tbody>
+      </table>
     </div>
     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">
-      <div class="row my-2 mx-auto">
-        <?php foreach ($allVocab as $row) { ?>
-          <div class="col-2 col-md-3 col-lg-3 my-2  fs-4 ">
-            <a href="vocab_manage/vocab_info_login.php?id=<?php echo $row['v_id']; ?>" class="nav-link my-2">
-              <h4><?php echo $row["vocabulary"]; ?></h4>
-            </a>
-          </div>
-        <?php } ?>
-      </div>
+      <!-- Show edit vocab -->
     </div>
   </section>
 </main>
