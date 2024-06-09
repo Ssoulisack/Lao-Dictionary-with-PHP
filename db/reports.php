@@ -35,7 +35,7 @@ class Report
     function reportEditDefinition($start, $end, $pageStart, $rows_per_page)//reportDefinition.php
     {
         try {
-            $sql = "SELECT a.new_definition, a.new_example, a.username, a.status, a.date, d.username AS verifyBy, b.vocabulary, c.pos_name2 FROM edit_definition a
+            $sql = "SELECT a.old_definition, a.old_example, a.new_definition, a.new_example, a.username, a.status, a.date, d.username AS verifyBy, b.vocabulary, c.pos_name2 FROM edit_definition a
             INNER JOIN vocabulary b ON a.v_id = b.v_id
             INNER JOIN parts_of_speech c ON a.pos_id = c.pos_id
             INNER JOIN expert_language d ON a.verifyBy = d.e_id

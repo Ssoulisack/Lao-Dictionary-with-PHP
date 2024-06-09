@@ -100,13 +100,8 @@ if ($editDefinition) {
                 <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
             </div>
             <div class="title">
-                <div class="institute">
-                    <div class="logo-ins">
-                        <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
-                    </div>
-                    <div class="ins">
-                        <p class="name-ins text">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
-                    </div>
+                <div class="logo-ins">
+                    <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
                 </div>
                 <div class="report-title">
                     <p class="text-report">ລາຍງານແກ້ໄຂຄຳອະທິບາຍສັບ</p>
@@ -120,11 +115,14 @@ if ($editDefinition) {
                         <th class="number"></th>
                         <th class="vocab">ຄຳສັບ</th>
                         <th class="type">ປະເພດ</th>
-                        <th class="description">ຄຳອະທິບາຍ</th>
-                        <th class="example">ຕົວຢ່າງ</th>
+                        <th class="old-description">ຄຳອະທິບາຍເກົ່າ</th>
+                        <th class="old-example">ຕົວຢ່າງເກົ່າ</th>
+                        <th class="description">ຄຳອະທິບາຍໃໝ່</th>
+                        <th class="example">ຕົວຢ່າງໃໝ່</th>
                         <th class="editor">ຜູ້ແກ້ໄຂ</th>
-                        <th class="status">ສະຖານະ</th>
+                        <th class="status">ການກວດສອບ</th>
                         <th class="verify">ຜູ້ກວດສອບ</th>
+                        <th class="status">ສະຖານະ</th>
                         <th class="date">ວັນທີ</th>
                     </tr>
                 </thead>
@@ -137,15 +135,22 @@ if ($editDefinition) {
                             <th scope="row" class="number"><?php echo $index++; ?></th>
                             <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
                             <td class="content-row pos"><?php echo $row['pos_name2'] ?></td>
+                            <td class="content-row old-definition"><?php echo $row['old_definition'] ?></td>
+                            <td class="content-row old-example"><?php echo $row['old_example'] ?></td>
                             <td class="content-row definition"><?php echo $row['new_definition'] ?></td>
-                            <td class="content-row definition"><?php echo $row['new_example'] ?></td>
-                            <td class="content-row definition"><?php echo $row['username'] ?></td>
-                            <td class="content-row definition"><?php if ($row['status'] == 'approve') {
-                                echo 'ແກ້ໄຂ';
+                            <td class="content-row example"><?php echo $row['new_example'] ?></td>
+                            <td class="content-row username"><?php echo $row['username'] ?></td>
+                            <td class="content-row status"><?php if ($row['status'] == 'approve') {
+                                echo '<span class="text-primary">ຢືນຢັນ</span>';
                             } else {
-                                  echo 'ປະຕິເສດ';
+                                echo '<p class="text-danger">ປະຕິເສດ</p>';
                             } ?></td>
-                            <td class="content-row definition"><?php echo $row['verifyBy'] ?></td>
+                            <td class="content-row verify"><?php echo $row['verifyBy'] ?></td>
+                            <td class="content-row status"><?php if (empty($row['old_definition'])) {
+                                echo '<p class="text-success">ເພີ່ມ</p>';
+                            } else {
+                                echo '<p class="text-warning">ແກ້ໄຂ</p>';
+                            } ?></td>
                             <td class="content-row date"><?php echo $date; ?></td>
                         </tr>
                     <?php } ?>

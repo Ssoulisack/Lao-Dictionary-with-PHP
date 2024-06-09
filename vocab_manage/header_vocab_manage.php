@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "../layout/loginCheck.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -86,10 +87,7 @@ session_start();
                     class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
               </ul>
             </li>
-          <?php } else {
-            header("Location: ../login.php");
-            exit();
-          } ?>
+          <?php } ?>
           <?php if (isset($_SESSION["id"])) { ?>
             <li class="nav-item dropdown">
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
@@ -115,10 +113,7 @@ session_start();
                 </ul>
               <?php } ?>
             </li>
-          <?php } else {
-            header("Location: ../login.php");
-            exit();
-          } ?>
+          <?php } ?>
         </ul>
       </div>
     </div>

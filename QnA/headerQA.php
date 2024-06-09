@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
 session_start();
+require_once "../layout/loginCheck.php";
 ?>
 
 <head>

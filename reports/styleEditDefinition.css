@@ -1,7 +1,11 @@
-.header{
+.slogan{
     text-align: center;
 }
+.logo-ins{
+    display: flex;
+}
 .text-report{
+    text-align: center;
     font-size: 2rem;
 }
 
@@ -38,19 +42,25 @@
 }
 
 .table-report th.vocab, .table-report td.vocab {
-    width: 10%;
+    width: 5%;
 }
 
 .table-report th.type, .table-report td.type {
     width: 10%;
 }
 
-.table-report th.description, .table-report td.description {
+.table-report th.old-description, .table-report td.old-definition {
     width: 15%;
-}   
+}
+.table-report th.old-example, .table-report td.old-example {
+    width: 10%;
+}
+.table-report th.description, .table-report td.definition {
+    width: 15%;
+}
 
 .table-report th.example, .table-report td.example {
-    width: 20%;
+    width: 10%;
 }
 .table-report th.editor, .table-report td.editor {
     width: 10%;

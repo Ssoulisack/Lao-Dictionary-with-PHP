@@ -11,7 +11,7 @@ class Users
     function insertAdmin($username, $email, $password, $fname, $lname, $address, $tel, $urole)
     {
         try {
-            $passwordHash = md5($password.$username);
+            $passwordHash = md5($password . $username);
             $sql = "INSERT INTO admin(username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
@@ -34,7 +34,7 @@ class Users
     function insertUser($username, $email, $password, $fname, $lname, $address, $tel, $urole)
     {
         try {
-            $passwordHash = md5($password.$username);
+            $passwordHash = md5($password . $username);
             $sql = "INSERT INTO member(username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
@@ -85,7 +85,7 @@ class Users
     {
         try {
             $imageContent = file_get_contents($doc);
-            $passwordHash = md5($password.$username);
+            $passwordHash = md5($password . $username);
             $sql = "INSERT INTO expert_language (username, firstname, lastname, email, password, address, telephone, credentials, status, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :document, :status, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
@@ -107,100 +107,176 @@ class Users
         }
     }
     //Function login by admin
-    function loginAdmin($username, $password){
-        try{
-            $sql= "SELECT * FROM admin WHERE username=:username AND password=:password";
-            $stmt= $this->db->prepare($sql);
+    function loginAdmin($username, $password)
+    {
+        try {
+            $sql = "SELECT * FROM admin WHERE username=:username AND password=:password";
+            $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":password", $password);
             $stmt->execute();
-            $result= $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
-            
-        }catch(PDOException $e){
+
+        } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
         }
     }
 
     //Function Login by ExpertLanguage
-    function loginExpertLanguage($username,$password){
-        try{
-            $sql= "SELECT * FROM expert_language WHERE username=:username AND password=:password";
-            $stmt= $this->db->prepare($sql);
+    function loginExpertLanguage($username, $password)
+    {
+        try {
+            $sql = "SELECT * FROM expert_language WHERE username=:username AND password=:password";
+            $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":password", $password);
             $stmt->execute();
-            $result= $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
-            
-        }catch(PDOException $e){
+
+        } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
         }
     }
 
     //Function Login by member
-    function loginMembers($username,$password){
-        try{
-            $sql= "SELECT * FROM member WHERE username=:username AND password=:password";
-            $stmt= $this->db->prepare($sql);
+    function loginMembers($username, $password)
+    {
+        try {
+            $sql = "SELECT * FROM member WHERE username=:username AND password=:password";
+            $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":password", $password);
             $stmt->execute();
-            $result= $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
-            
-        }catch(PDOException $e){
+
+        } catch (PDOException $e) {
             echo $e->getMessage();
             return false;
         }
     }
     //Approve Expert Language
-    function eplRequest($status) {
-        try{
+    function eplRequest($status)
+    {
+        try {
             $sql = "SELECT * FROM expert_language WHERE status = :status";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":status", $status);
             $stmt->execute();
             return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    //********CANCEL USER EXPERT LANGUAGE*****
+    function cancelStatus($id)
+    {
+        try {
+            $sql = "DELETE FROM expert_language WHERE e_id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":id", $id);
+            $stmt->execute();
+            return true;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    //Update function ********CANCEL USER EXPERT LANGUAGE*******
+    function updateStatus($id, $status)
+    {
+        try {
+            $sql = "UPDATE expert_language
+              SET status = :status
+              WHERE e_id=:id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":status", $status);
+            $stmt->bindParam(":id", $id);
+            $stmt->execute();
+            return true;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    function infoUser($id, $username, $urole)//profile.php
+    {
+        try {
+            if ($urole == 'admin') {
+                $sql = "SELECT * FROM admin WHERE admin_id = :admin_id AND username = :username";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(":admin_id", $id);
+                $stmt->bindParam(":username", $username);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result;
+            } else if ($urole == 'member') {
+                $sql = "SELECT * FROM member WHERE m_id = :m_id AND username = :username";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(":m_id", $id);
+                $stmt->bindParam(":username", $username);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result;
+            } else if ($urole == 'languageExpert') {
+                $sql = "SELECT * FROM expert_language WHERE e_id = :e_id AND username = :username";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(":e_id", $id);
+                $stmt->bindParam(":username", $username);
+                $stmt->execute();
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $result;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    function members(){//members.php
+        try {
+            $sql = "SELECT * FROM member";
+            $result = $this->db->query($sql);
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    function epLanguage()//ep_languages.php
+    {
+        try {
+            $sql = "SELECT * FROM expert_language";
+            $result = $this->db->query($sql);
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    //Delete Function
+    function deleteMember($id){
+        try{
+            $sql = "DELETE FROM member WHERE m_id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam("id",$id);
+            $stmt->execute();
+            return true;
+
         }catch(PDOException $e){
             echo $e->getMessage();
             return false;
         }
     }
-      //********CANCEL USER EXPERT LANGUAGE*****
-      function cancelStatus($id)
-      {
-          try {
-              $sql = "DELETE FROM expert_language WHERE e_id = :id";
-              $stmt = $this->db->prepare($sql);
-              $stmt->bindParam(":id", $id);
-              $stmt->execute();
-              return true;
-  
-          } catch (PDOException $e) {
-              echo $e->getMessage();
-              return false;
-          }
-      }
-  
-      //Update function ********CANCEL USER EXPERT LANGUAGE*******
-      function updateStatus($id, $status)
-      {
-          try {
-              $sql = "UPDATE expert_language
-              SET status = :status
-              WHERE e_id=:id";
-              $stmt = $this->db->prepare($sql);
-              $stmt->bindParam(":status", $status);
-              $stmt->bindParam(":id", $id);
-              $stmt->execute();
-              return true;
-  
-          } catch (PDOException $e) {
-              echo $e->getMessage();
-              return false;
-          }
-      }
 }

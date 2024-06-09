@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once "../layout/loginCheck.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
