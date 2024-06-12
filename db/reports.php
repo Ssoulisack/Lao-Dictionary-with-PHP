@@ -17,7 +17,7 @@ class Report
                 INNER JOIN vocabulary a ON b.v_id = a.v_id
                 INNER JOIN parts_of_speech c ON b.pos_id = c.pos_id
                 WHERE b.date BETWEEN :start AND :end
-                ORDER BY b.date ASC
+                ORDER BY a.vocabulary ASC
                 LIMIT :pageStart, :rows_per_page";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":start", $start);
@@ -40,7 +40,7 @@ class Report
             INNER JOIN parts_of_speech c ON a.pos_id = c.pos_id
             INNER JOIN expert_language d ON a.verifyBy = d.e_id
                 WHERE a.date BETWEEN :start AND :end
-                ORDER BY a.date ASC
+                ORDER BY b.vocabulary ASC
                 LIMIT :pageStart, :rows_per_page";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":start", $start);
@@ -60,7 +60,7 @@ class Report
             $sql = "SELECT a.old_vocab, a.new_vocab, a.username, a.status, a.date, d.username AS verifyBy FROM edit_vocab a
             INNER JOIN expert_language d ON a.verifyBy = d.e_id
                 WHERE a.date BETWEEN :start AND :end
-                ORDER BY a.date ASC
+                ORDER BY a.old_vocab ASC
                 LIMIT :pageStart, :rows_per_page";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":start", $start);

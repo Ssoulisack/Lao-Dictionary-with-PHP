@@ -76,9 +76,9 @@ if ($vocabInfo) {
         <div class="mt-3">
             <form action="" method="POST" class="text-end mx-2">
                 <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-start"
-                       id="start" value="<?php echo $start; ?>">
+                    id="start" value="<?php echo $start; ?>">
                 <input type="date" class="border border-dark-subtle text-secondary p-1 rounded-3" name="date-end"
-                       id="end" value="<?php echo $end; ?>">
+                    id="end" value="<?php echo $end; ?>">
                 <input type="submit" class="btn btn-secondary btn-sm rounded-4" value="ເລືອກວັນທີ">
             </form>
             <div class="text-end my-2">
@@ -88,57 +88,55 @@ if ($vocabInfo) {
     </section>
     <?php ob_start(); ?>
     <html>
+
     <head>
         <link href="style.css" rel="stylesheet">
     </head>
+
     <body>
-    <div class="header">
-        <div class="slogan">
-            <p class="text">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
-            <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
-        </div>
-        <div class="title">
-            <div class="institute">
-                <div class="logo-ins">
+        <div class="header">
+            <div class="slogan">
+                <p class="text">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
+                <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
+            </div>
+            <div class="title">
+                <div class="d-flex justify-content-start logo-ins">
                     <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
                 </div>
-                <div class="ins">
-                    <p class="name-ins text">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
+                <div class="report-title">
+                    <p class="text-report">ລາຍງານຄຳສັບ</p>
                 </div>
             </div>
-            <div class="report-title">
-                <p class="text-report">ລາຍງານຄຳສັບ</p>
-            </div>
         </div>
-    </div>
-    <div class="body">
-        <table class="table-report">
-            <thead>
-            <tr class="table-title">
-                <th class="number"></th>
-                <th class="vocab">ຄຳສັບ</th>
-                <th class="type">ປະເພດ</th>
-                <th class="description">ຄຳອະທິບາຍ</th>
-                <th class="date">ວັນທີ</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php while ($row = $vocabInfo->fetch(PDO::FETCH_ASSOC)) {
-                $time = $row['date'];
-                $date = explode(' ', $time)[0]; // Extract the date part
-                ?>
-                <tr class="content">
-                    <th scope="row" class="number"><?php echo $index++; ?></th>
-                    <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
-                    <td class="content-row pos"><?php echo $row['pos_name2'] ?></td>
-                    <td class="content-row definition"><?php echo $row['definition'] ?></td>
-                    <td class="content-row date"><?php echo $date; ?></td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-    </div>
+        <div class="body">
+            <table class="table-report">
+                <thead>
+                    <tr class="table-title">
+                        <th class="number"></th>
+                        <th class="vocab">ຄຳສັບ</th>
+                        <th class="type">ປະເພດ</th>
+                        <th class="description">ຄຳອະທິບາຍ</th>
+                        <th class="date">ວັນທີ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $vocabInfo->fetch(PDO::FETCH_ASSOC)) {
+                        $time = $row['date'];
+                        $date = explode(' ', $time)[0]; // Extract the date part
+                        ?>
+                        <tr class="content">
+                            <th scope="row" class="number"><?php echo $index++; ?></th>
+                            <td class="content-row vocab"><?php echo $row['vocabulary'] ?></td>
+                            <td class="content-row pos"><?php echo $row['pos_name2'] ?></td>
+                            <td class="content-row definition"><?php echo $row['definition'] ?></td>
+                            <td class="content-row date"><?php echo $date; ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </body>
+
     </html>
     <?php
     $stylesheet = file_get_contents('style.css');
@@ -151,64 +149,64 @@ if ($vocabInfo) {
     ?>
 </main>
 
-        <!-- pagination -->
-        <nav aria-label="Page navigation" style="margin-top: 2rem;">
-            <!-- Display the page info text -->
-            <div class="d-flex justify-content-center">
-                <?php if (!isset($_GET['page_nr'])) { ?>
-                    <?php $page = 1; ?>
-                <?php } else { ?>
-                    <?php $page = $_GET['page_nr']; ?>
-                <?php } ?>
-                <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
-            </div>
-            <ul class="pagination justify-content-center">
-                <!-- Go to the first page -->
-                <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
-                <!-- Go to the previous page -->
-                <li class="page-item">
-                    <?php if (isset($_GET['page_nr']) && $_GET['page_nr'] > 1) { ?>
-                        <a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] - 1 ?>">Previous</a>
-                        <?php
-                    } else { ?>
-                        <a class="page-link">Previous</a>
-                    <?php } ?>
-                </li>
-                <?php if (!isset($_GET['page_nr'])) { ?>
-                    <li class="page-item"><a class="page-link active" href="?page_nr=1">1</a>
-                        <?php $count_from = 2; ?></li>
-                <?php } else { ?>
-                    <?php $count_from = 1; ?>
-                <?php } ?>
-                <?php for ($num = $count_from; $num <= $pages; $num++) { ?>
-                    <?php if ($num == @$_GET['page_nr']) { ?>
-                        <li class="page-item"><a class="page-link active"
-                                href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
-                    <?php } else { ?>
-                        <li class="page-item"><a class="page-link " href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
-                        </li>
-                    <?php } ?>
-                <?php } ?>
-
-                <!-- Go to the next page -->
+<!-- pagination -->
+<nav aria-label="Page navigation" style="margin-top: 2rem;">
+    <!-- Display the page info text -->
+    <div class="d-flex justify-content-center">
+        <?php if (!isset($_GET['page_nr'])) { ?>
+            <?php $page = 1; ?>
+        <?php } else { ?>
+            <?php $page = $_GET['page_nr']; ?>
+        <?php } ?>
+        <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
+    </div>
+    <ul class="pagination justify-content-center">
+        <!-- Go to the first page -->
+        <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
+        <!-- Go to the previous page -->
+        <li class="page-item">
+            <?php if (isset($_GET['page_nr']) && $_GET['page_nr'] > 1) { ?>
+                <a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] - 1 ?>">Previous</a>
                 <?php
-                if (isset($_GET['page_nr'])) { ?>
-                    <?php if ($_GET['page_nr'] >= $pages) { ?>
-                        <li class="page-item"><a class="page-link" href="">Next</a></li>
-                    <?php } else { ?>
-                        <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a>
-                        </li>
-                    <?php } ?>
-                <?php } else { ?>
-                    <li class="page-item"><a class="page-link" href="?page_nr=2">Next</a></li>
-                <?php } ?>
-                <!-- Go to the Last page -->
-                <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
-            </ul>
-        </nav>
-    </body>
+            } else { ?>
+                <a class="page-link">Previous</a>
+            <?php } ?>
+        </li>
+        <?php if (!isset($_GET['page_nr'])) { ?>
+            <li class="page-item"><a class="page-link active" href="?page_nr=1">1</a>
+                <?php $count_from = 2; ?></li>
+        <?php } else { ?>
+            <?php $count_from = 1; ?>
+        <?php } ?>
+        <?php for ($num = $count_from; $num <= $pages; $num++) { ?>
+            <?php if ($num == @$_GET['page_nr']) { ?>
+                <li class="page-item"><a class="page-link active" href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
+                </li>
+            <?php } else { ?>
+                <li class="page-item"><a class="page-link " href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
+                </li>
+            <?php } ?>
+        <?php } ?>
 
-    </html>
+        <!-- Go to the next page -->
+        <?php
+        if (isset($_GET['page_nr'])) { ?>
+            <?php if ($_GET['page_nr'] >= $pages) { ?>
+                <li class="page-item"><a class="page-link" href="">Next</a></li>
+            <?php } else { ?>
+                <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a>
+                </li>
+            <?php } ?>
+        <?php } else { ?>
+            <li class="page-item"><a class="page-link" href="?page_nr=2">Next</a></li>
+        <?php } ?>
+        <!-- Go to the Last page -->
+        <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
+    </ul>
+</nav>
+</body>
+
+</html>
 </main>
 </body>
 

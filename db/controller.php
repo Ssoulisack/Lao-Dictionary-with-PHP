@@ -9,13 +9,26 @@ class Controller
         $this->db = $con;
     }
     //allVocab
-    function allVocab(){
+    function allVocab($start, $rows_per_page){
         try {
-            $sql = "SELECT * FROM vocabulary";
+            $sql = "SELECT * FROM vocabulary ORDER BY vocabulary ASC LIMIT $start, $rows_per_page";
             $stmt = $this->db->query($sql);
             return $stmt;
         } catch (Exception $e) {
             return $e->getMessage();
+        }
+    }
+    function vocabNumrow()//Num row questions_page.php
+    {
+        try {
+            $sql = "SELECT COUNT(*) FROM vocabulary";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $rowCount = $stmt->fetchColumn();
+            return $rowCount;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
         }
     }
     //GET part of speech

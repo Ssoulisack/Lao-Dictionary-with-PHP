@@ -1,10 +1,13 @@
-.header{
+.slogan{
     text-align: center;
-}
-.text-report{
+    }
+.logo-ins{
+    text-align: left;
+} 
+.text-report{ 
+    text-align: center;
     font-size: 2rem;
 }
-
 /* TABLE REPORT VOCAB */
 /* General table styling */
 .table-report {

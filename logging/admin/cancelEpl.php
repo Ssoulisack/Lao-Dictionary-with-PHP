@@ -5,7 +5,7 @@ if(!isset($_GET["id"])){
     header("location:../registration_Request.php");
 }else{
     $id=$_GET["id"];
-    $result= $users->cancelStatus($id);
+    $result= $user->cancelStatus($id);
     if($result){
         $_SESSION["warning"] = "ປະຕິເສດການລົງທະບຽນ";
         header("location:../registration_Request.php");

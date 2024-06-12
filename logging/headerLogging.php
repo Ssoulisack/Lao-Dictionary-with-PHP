@@ -32,7 +32,7 @@ require_once "../layout/checkLogin.php";
             <div class="collapse navbar-collapse" id="navToggle">
                 <ul class="navbar-nav ms-auto me-auto">
                     <li class="nav-item"><a href="../homePage.php" class="text-dark nav-link">ໜ້າທຳອິດ</a></li>
-                    <li class="nav-item"><a href="../QnA/questions_page.php" class="text-dark nav-link">ກະທູ້ຖາມ-ຕອບ</a>
+                    <li class="nav-item"><a href="../vocab_manage/all_vocab.php" class="text-dark nav-link">ຄຳສັບທັງໝົດ</a></li>
                     </li>
                     <li class="nav-item"><a href="#" class="text-dark nav-link">ກ່ຽວກັບ</a></li>
                     <?php if ($_SESSION["urole"] == "admin") { ?>
@@ -106,23 +106,25 @@ require_once "../layout/checkLogin.php";
                             </a>
                             <?php if ($_SESSION["urole"] == "member") { ?>
                                 <ul class="dropdown-menu">
-                                    <li class="dropdown-item"><a href="" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
+                                    <li class="dropdown-item"><a href="../profile.php" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
                                     <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
                                 </ul>
                             <?php } elseif ($_SESSION["urole"] == "languageExpert") { ?>
                                 <ul class="dropdown-menu">
+                                    <li class="dropdown-item"><a href="../profile.php" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
                                     <li class="dropdown-item"><a href="../vocab_manage/listVocab_req.php"
-                                            class="nav-link">ຄຳຂໍແກ້ໄຂຄຳສັບ</a>
-                                    </li>
-                                    <li class="dropdown-item"><a href="../vocab_manage/listEdit_req.php"
-                                            class="nav-link">ຄຳຂໍແກ້ໄຂຄຳອະທິບາຍສັບ</a>
-                                    </li>
+                                            class="nav-link">ຄຳຂໍແກ້ໄຂຄຳສັບ</a></li>
+                                    <li class="dropdown-item"><a href="vocab_manage/listEdit_req.php"
+                                            class="nav-link">ຄຳຂໍແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
                                     <li class="dropdown-item"><a href="../logging/add_vocab.php" class="nav-link">ເພີ່ມຄຳສັບ</a>
                                     </li>
                                     <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>
                                 </ul>
                             <?php } elseif ($_SESSION["urole"] == "admin") { ?>
                                 <ul class="dropdown-menu">
+                                    <li class="dropdown-item"><a href="../profile.php" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
+                                    <li class="dropdown-item"><a href="../members.php" class="nav-link">ສະມາຊິກ</a></li>
+                                    <li class="dropdown-item"><a href="../ep_languages.php" class="nav-link">ຜູ້ຊ່ຽວຊານ</a></li>
                                     <li class="dropdown-item"><a href="../logging/add_vocab.php" class="nav-link">ເພີ່ມຄຳສັບ</a>
                                     </li>
                                     <li class="dropdown-item"><a href="../logout.php" class="nav-link">ອອກຈາກລະບົບ</a></li>

@@ -33,6 +33,14 @@ $results = $question->showQuestions($start, $rows_per_page);
         ?>
     </div>
 <?php } ?>
+<?php if (isset($_SESSION['warning'])) { ?>
+    <div class="alert alert-warning text-center" role="alert">
+        <?php
+        echo $_SESSION['warning'];
+        unset($_SESSION['warning']);
+        ?>
+    </div>
+<?php } ?>
 <main class="container-fluid px-5">
     <?php if ($_SESSION['urole'] == 'member') { ?>
         <div class="d-flex justify-content-between align-items-center">

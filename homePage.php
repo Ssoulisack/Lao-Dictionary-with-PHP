@@ -5,7 +5,6 @@ require_once "db/config.php";
 require_once "layout/checkLogin.php";
 require_once "layout/searchLogin.php";
 $result = $controller->infoCharacter();
-$allVocab = $controller->allVocab();
 $getPos = $controller->getPos();
 if (isset($_POST["search"])) {
   $vocab = $_POST["vocab"];

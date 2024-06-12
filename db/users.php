@@ -256,7 +256,7 @@ class Users
     function epLanguage()//ep_languages.php
     {
         try {
-            $sql = "SELECT * FROM expert_language";
+            $sql = "SELECT * FROM expert_language WHERE status = 'approve'";
             $result = $this->db->query($sql);
             return $result;
         } catch (PDOException $e) {
@@ -269,6 +269,19 @@ class Users
     function deleteMember($id){
         try{
             $sql = "DELETE FROM member WHERE m_id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam("id",$id);
+            $stmt->execute();
+            return true;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    function deleteEpl($id){
+        try{
+            $sql = "DELETE FROM expert_language WHERE e_id = :id";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam("id",$id);
             $stmt->execute();

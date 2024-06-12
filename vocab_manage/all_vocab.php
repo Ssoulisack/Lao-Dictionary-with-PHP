@@ -1,10 +1,11 @@
 <?php
-$title = "Registration";
-require_once "db/config.php";
-require_once "layout/header.php";
-$nr_of_rows = $question->questionNumRows();
+$title = "ຄຳສັບທັງໝົດ";
+require_once "header_vocab_manage.php";
+require_once "search_vocab_login.php";
+require_once "../db/config.php";
+$nr_of_rows = $controller->vocabNumrow();
 // Setting the number of rows to display in a page.
-$rows_per_page = 4;
+$rows_per_page = 100;
 
 // calculating the nr of pages.
 $pages = ceil($nr_of_rows / $rows_per_page);
@@ -15,18 +16,27 @@ if (isset($_GET['page_nr'])) {
     $page = $_GET['page_nr'] - 1;
     $start = $page * $rows_per_page;
 }
-$results = $question->showQuestions($start, $rows_per_page);
+$allVocab = $controller->allVocab($start, $rows_per_page);
 ?>
 <main class="container-fluid px-5">
-            <div class="d-flex justify-content-between align-items-center">
-            <h1><i class="bi bi-caret-right h3"> ກະທູ້ຄຳຖາມກ່ຽວກັບພາສາລາວ</i></h1>
-        </div>
-        <hr>
-        <?php while ($result = $results->fetch(PDO::FETCH_ASSOC)) { ?>
-            <div class="border rounded-2 p-2 my-3">
-                <a class="nav-link fs-5" href="questionDetail.php?id=<?php echo $result['q_id'] ?>"><?php echo $result['title']; ?></a>
+        <!-- All Vocabulary -->
+<section id="show-vocab">
+    <div class="">
+        <form action="" method="POST">
+            <div class="row my-2 mx-auto">
+                <h4 class="text-center text-primary"> <?php echo "ຄຳສັບທັງໝົດ: " . $nr_of_rows ." (ຄຳສັບ)"; ?></h4>
+                <?php while ($row = $allVocab->fetch(PDO::FETCH_ASSOC)) { ?>
+                    <ul class="list-group col-4 col-lg-2 ">
+                        <li class="nav-link">
+                            <a href="vocab_info_login.php?id=<?php echo $row['v_id'] ?>"
+                                class="nav-link my-2"><h4><?php echo $row["vocabulary"] ?></h4></a>
+                        </li>
+                    </ul>
+                <?php } ?>
             </div>
-        <?php } ?>
+        </form>
+    </div>
+</section>
         <!-- pagination -->
         <nav aria-label="Page navigation">
             <!-- Display the page info text -->

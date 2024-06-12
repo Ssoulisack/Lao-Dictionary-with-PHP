@@ -7,7 +7,7 @@ require_once "Controller.php";
 $host = "localhost";
 $username = "root";
 $password = "";
-$dbname = "dictionary";
+$dbname = "laodictionary";
 
 $dsn = "mysql:host=$host;dbname=$dbname; charset-utf8";
 
