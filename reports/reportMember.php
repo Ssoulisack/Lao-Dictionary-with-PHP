@@ -94,58 +94,58 @@ if ($memberReport) {
     </head>
 
     <body>
-    <div class="header">
-        <div class="slogan">
-            <p class="text">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
-            <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
-        </div>
-        <div class="title">
-            <div class="institute">
-                <div class="logo-ins">
-                    <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
+        <div class="header">
+            <div class="slogan">
+                <p class="text">ສາທາລະນະລັດ ປະຊາທິປະໄຕ ປະຊາຊົນລາວ</p>
+                <p class="text">ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດຖະນາຖາວອນ</p>
+            </div>
+            <div class="title">
+                <div class="institute">
+                    <div class="logo-ins">
+                        <img src="../asset/image/SIT-LOGO.png" alt="logo" width="100px">
+                    </div>
+                    <div class="ins">
+                        <p class="name-ins text">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
+                    </div>
                 </div>
-                <div class="ins">
-                    <p class="name-ins text">ສະຖາບັນ ເຕັກໂນໂລຊີ ສຸດສະກະ</p>
+                <div class="report-title">
+                    <p class="text-report">ລາຍງານສະມາຊິກ</p>
                 </div>
             </div>
-            <div class="report-title">
-                <p class="text-report">ລາຍງານສະມາຊິກ</p>
-            </div>
         </div>
-    </div>
-    <div class="body">
-        <table class="table-report">
-            <thead>
-                <tr class="table-title">
-                    <th class="head number">#</th>
-                    <th class="head username">ຊື່ຜູ້ໃຊ້</th>
-                    <th class="head email">ອີເມວ</th>
-                    <th class="head name">ຊື່ ແລະ ນາມສະກຸນ</th>
-                    <th class="head tel">ເບີໂທ</th>
-                    <th class="head address">ທີ່ຢູ່</th>
-                    <th class="head date">ວັນທີລົງທະບຽນ</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $index = 1;
-                while ($row = $memberReport->fetch(PDO::FETCH_ASSOC)) {
-                    $time = $row['date'];
-                    $date = explode(' ', $time)[0]; // Extract the date part
-                ?>
-                    <tr class="content">
-                        <th scope="row" class="number"><?php echo $index++; ?></th>
-                        <td class="username"><?php echo $row['username'] ?></td>
-                        <td class="email"><?php echo $row['email'] ?></td>
-                        <td class="name"><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
-                        <td class="tel"><?php echo $row['telephone'] ?></td>
-                        <td class="address"><?php echo $row['address'] ?></td>
-                        <td class="date"><?php echo $date; ?></td>
+        <div class="body mb-3">
+            <table class="table-report">
+                <thead>
+                    <tr class="table-title">
+                        <th class="head number">#</th>
+                        <th class="head username">ຊື່ຜູ້ໃຊ້</th>
+                        <th class="head email">ອີເມວ</th>
+                        <th class="head name">ຊື່ ແລະ ນາມສະກຸນ</th>
+                        <th class="head tel">ເບີໂທ</th>
+                        <th class="head address">ທີ່ຢູ່</th>
+                        <th class="head date">ວັນທີລົງທະບຽນ</th>
                     </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    <?php
+                    $index = 1;
+                    while ($row = $memberReport->fetch(PDO::FETCH_ASSOC)) {
+                        $time = $row['date'];
+                        $date = explode(' ', $time)[0]; // Extract the date part
+                        ?>
+                        <tr class="content">
+                            <th scope="row" class="number"><?php echo $index++; ?></th>
+                            <td class="username"><?php echo $row['username'] ?></td>
+                            <td class="email"><?php echo $row['email'] ?></td>
+                            <td class="name"><?php echo $row['firstname'] . ' ' . $row['lastname']; ?></td>
+                            <td class="tel"><?php echo $row['telephone'] ?></td>
+                            <td class="address"><?php echo $row['address'] ?></td>
+                            <td class="date"><?php echo $date; ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
     </body>
 
     </html>
@@ -160,61 +160,73 @@ if ($memberReport) {
     ?>
 </main>
 
-<!-- pagination -->
-<nav aria-label="Page navigation" style="margin-top: 2rem;">
-    <!-- Display the page info text -->
-    <div class="d-flex justify-content-center">
-        <?php if (!isset($_GET['page_nr'])) { ?>
-            <?php $page = 1; ?>
-        <?php } else { ?>
-            <?php $page = $_GET['page_nr']; ?>
-        <?php } ?>
-        <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
-    </div>
-    <ul class="pagination justify-content-center">
-        <!-- Go to the first page -->
-        <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
-        <!-- Go to the previous page -->
-        <li class="page-item">
-            <?php if (isset($_GET['page_nr']) && $_GET['page_nr'] > 1) { ?>
-                <a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] - 1 ?>">Previous</a>
-                <?php
-            } else { ?>
-                <a class="page-link">Previous</a>
-            <?php } ?>
-        </li>
-        <?php if (!isset($_GET['page_nr'])) { ?>
-            <li class="page-item"><a class="page-link active" href="?page_nr=1">1</a>
-                <?php $count_from = 2; ?></li>
-        <?php } else { ?>
-            <?php $count_from = 1; ?>
-        <?php } ?>
-        <?php for ($num = $count_from; $num <= $pages; $num++) { ?>
-            <?php if ($num == @$_GET['page_nr']) { ?>
-                <li class="page-item"><a class="page-link active" href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
-                </li>
+<?php if ($pages > 1) { ?>
+    <!-- pagination -->
+    <nav aria-label="Page navigation">
+        <!-- Display the page info text -->
+        <div class="d-flex justify-content-center">
+            <?php if (!isset($_GET['page_nr'])) { ?>
+                <?php $page = 1; ?>
             <?php } else { ?>
-                <li class="page-item"><a class="page-link " href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
-                </li>
+                <?php $page = intval($_GET['page_nr']); ?>
             <?php } ?>
-        <?php } ?>
+            <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
+        </div>
+        <ul class="pagination justify-content-center">
+            <!-- Go to the first page -->
+            <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
+            <!-- Go to the previous page -->
+            <li class="page-item">
+                <?php if ($page > 1) { ?>
+                    <a class="page-link" href="?page_nr=<?php echo $page - 1 ?>">Previous</a>
+                    <?php
+                } else { ?>
+                    <a class="page-link">Previous</a>
+                <?php } ?>
+            </li>
+            <?php
+            $start = max(1, $page - 2);
+            $end = min($pages, $page + 5);
 
-        <!-- Go to the next page -->
-        <?php
-        if (isset($_GET['page_nr'])) { ?>
-            <?php if ($_GET['page_nr'] >= $pages) { ?>
-                <li class="page-item"><a class="page-link" href="">Next</a></li>
+            if ($start > 1) {
+                // echo '<li class="page-item"><a class="page-link" href="?page_nr=1">1</a></li>';
+                if ($start > 2) {
+                    echo '<li class="page-item"><span class="page-link">...</span></li>';
+                }
+            }
+
+            for ($num = $start; $num <= $end; $num++) { ?>
+                <?php if ($num == $page) { ?>
+                    <li class="page-item active"><a class="page-link" href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
+                    </li>
+                <?php } else { ?>
+                    <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
+                <?php } ?>
+            <?php }
+
+            if ($end < $pages) {
+                if ($end < $pages - 1) {
+                    echo '<li class="page-item"><span class="page-link">...</span></li>';
+                }
+            }
+            ?>
+
+            <!-- Go to the next page -->
+            <?php
+            if (isset($_GET['page_nr'])) { ?>
+                <?php if ($_GET['page_nr'] >= $pages) { ?>
+                    <li class="page-item"><a class="page-link" href="">Next</a></li>
+                <?php } else { ?>
+                    <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a></li>
+                <?php } ?>
             <?php } else { ?>
-                <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a>
-                </li>
+                <li class="page-item"><a class="page-link" href="?page_nr=2">Next</a></li>
             <?php } ?>
-        <?php } else { ?>
-            <li class="page-item"><a class="page-link" href="?page_nr=2">Next</a></li>
-        <?php } ?>
-        <!-- Go to the Last page -->
-        <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
-    </ul>
-</nav>
+            <!-- Go to the Last page -->
+            <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
+        </ul>
+    </nav>
+<?php } ?>
 </body>
 
 </html>

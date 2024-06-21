@@ -54,6 +54,29 @@ class Report
             return false;
         }
     }
+    function reportEditDefinitionMembers($start, $end, $pageStart, $rows_per_page, $m_id)//reportDefinition.php
+    {
+        try {
+            $sql = "SELECT a.old_definition, a.old_example, a.new_definition, a.new_example, a.username, a.status, a.date, d.username AS verifyBy, b.vocabulary, c.pos_name2 FROM edit_definition a
+            INNER JOIN vocabulary b ON a.v_id = b.v_id
+            INNER JOIN parts_of_speech c ON a.pos_id = c.pos_id
+            INNER JOIN expert_language d ON a.verifyBy = d.e_id
+                WHERE a.date BETWEEN :start AND :end AND a.urole = 'member' AND a.user_id = :user_id
+                ORDER BY b.vocabulary ASC
+                LIMIT :pageStart, :rows_per_page";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":user_id", $m_id);
+            $stmt->bindParam(":start", $start);
+            $stmt->bindParam(":end", $end);
+            $stmt->bindParam(":pageStart", $pageStart, PDO::PARAM_INT);
+            $stmt->bindParam(":rows_per_page", $rows_per_page, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
     function reportEditVocab($start, $end, $pageStart, $rows_per_page)//reportEditVocab.php
     {
         try {

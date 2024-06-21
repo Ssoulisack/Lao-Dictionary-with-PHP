@@ -36,7 +36,7 @@ if (!isset($_GET['id'])) {
         </div>
 
         <div class="d-flex justify-content-end">
-            <a href="../homepage.php" name="cancel" class="btn btn-secondary btn-sm my-2 mx-2">Cancel</a>
+            <a href="vocab_info_login.php?id=<?php echo $details["v_id"] ?>" name="cancel" class="btn btn-secondary btn-sm my-2 mx-2">Cancel</a>
             <input type="submit" name="submit" value="add" class="btn btn-primary btn-sm my-2">
         </div>
     </form>

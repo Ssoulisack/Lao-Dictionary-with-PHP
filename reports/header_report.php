@@ -79,6 +79,8 @@ require_once "../layout/loginCheck.php";
               <ul class="dropdown-menu">
                 <li class="dropdown-item"><a href="reportVocab.php" class="nav-link">ລາຍງານຄຳສັບ</a></li>
                 <li class="dropdown-item"><a href="reportEditVocab.php" class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                <li class="dropdown-item"><a href="../reports/reportEditDefinition.php"
+                    class="nav-link">ລາຍງານການແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
               </ul>
             </li>
           <?php } else {

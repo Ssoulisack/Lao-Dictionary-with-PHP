@@ -41,7 +41,7 @@ if (!isset($_GET['id'])) {
             <div class="row my-2 mx-auto">
                 <h4 class="text-center">ຄຳສັບ </h4>
                 <?php while ($row = $vocabulary->fetch(PDO::FETCH_ASSOC)) { ?>
-                    <ul class="list-group col-4 col-lg-2 ">
+                    <ul class="list-group col-4 col-lg-3 ">
                         <li class="nav-link">
                             <a href="vocab_info_login.php?id=<?php echo $row['v_id']; ?>"
                                 class="nav-link my-2"><h4><?php echo $row["vocabulary"];?></h4></a>

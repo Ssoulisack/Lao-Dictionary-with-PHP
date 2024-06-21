@@ -35,7 +35,7 @@ class Users
     {
         try {
             $passwordHash = md5($password . $username);
-            $sql = "INSERT INTO member(username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
+            $sql = "INSERT INTO member (username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
             $stmt->bindParam(":fname", $fname);

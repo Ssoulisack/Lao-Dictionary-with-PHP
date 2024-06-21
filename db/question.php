@@ -27,7 +27,7 @@ class Question
     function showQuestions($start, $rows_per_page)
     {//pagination questions_page.php
         try {
-            $sql = "SELECT * FROM question LIMIT $start, $rows_per_page";
+            $sql = "SELECT * FROM question ORDER BY create_at DESC LIMIT $start, $rows_per_page";
             $stmt = $this->db->query($sql);
             return $stmt;
         } catch (PDOException $e) {

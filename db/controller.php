@@ -323,6 +323,7 @@ class Controller
             return true;
 
         } catch (PDOException $e) {
+            echo $e->getMessage();
             return false;
         }
     }

@@ -12,7 +12,7 @@ if (isset($_POST["search"])) {
 }
 $nr_of_rows = $question->questionNumRows();
 // Setting the number of rows to display in a page.
-$rows_per_page = 4;
+$rows_per_page = 5;
 
 // calculating the nr of pages.
 $pages = ceil($nr_of_rows / $rows_per_page);
@@ -76,8 +76,8 @@ $results = $question->showQuestions($start, $rows_per_page);
           role="tab" aria-controls="question" aria-selected="true">ກະທູ້</button>
         <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
           role="tab" aria-controls="nav-profile" aria-selected="false">ປະເພດຄຳສັບ</button>
-        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
-          role="tab" aria-controls="nav-contact" aria-selected="false">ອັບເດດຄຳສັບ</button>
+        <!-- <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
+          role="tab" aria-controls="nav-contact" aria-selected="false">ອັບເດດຄຳສັບ</button> -->
       </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -88,135 +88,85 @@ $results = $question->showQuestions($start, $rows_per_page);
             <a href="QnA/addQuestion_form.php" class="btn btn-primary"><i class="bi bi-pencil-square"></i>
               ຕັ້ງກະທູ້ຄຳຖາມ</a>
           </div>
-          <hr>
-          <?php while ($result = $results->fetch(PDO::FETCH_ASSOC)) { ?>
-            <div class="border rounded-2 p-2 my-3">
-              <a class="nav-link fs-5"
-                href="QnA/question_detail.php?id=<?php echo $result['q_id'] ?>"><?php echo $result['title']; ?></a>
-            </div>
-          <?php } ?>
-          <!-- pagination -->
-          <nav aria-label="Page navigation">
-            <!-- Display the page info text -->
-            <div class="d-flex justify-content-center">
-              <?php if (!isset($_GET['page_nr'])) { ?>
-                <?php $page = 1; ?>
-              <?php } else { ?>
-                <?php $page = $_GET['page_nr']; ?>
-              <?php } ?>
-              <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
-            </div>
-            <ul class="pagination justify-content-center">
-              <!-- Go to the first page -->
-              <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
-              <!-- Go to the previous page -->
-              <li class="page-item">
-                <?php if (isset($_GET['page_nr']) && $_GET['page_nr'] > 1) { ?>
-                  <a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] - 1 ?>">Previous</a>
-                  <?php
-                } else { ?>
-                  <a class="page-link">Previous</a>
-                <?php } ?>
-              </li>
-              <?php if (!isset($_GET['page_nr'])) { ?>
-                <li class="page-item"><a class="page-link active" href="?page_nr=1">1</a>
-                  <?php $count_from = 2; ?></li>
-              <?php } else { ?>
-                <?php $count_from = 1; ?>
-              <?php } ?>
-              <?php for ($num = $count_from; $num <= $pages; $num++) { ?>
-                <?php if ($num == @$_GET['page_nr']) { ?>
-                  <li class="page-item"><a class="page-link active"
-                      href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
-                <?php } else { ?>
-                  <li class="page-item"><a class="page-link " href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
-                  </li>
-                <?php } ?>
-              <?php } ?>
-
-              <!-- Go to the next page -->
-              <?php
-              if (isset($_GET['page_nr'])) { ?>
-                <?php if ($_GET['page_nr'] >= $pages) { ?>
-                  <li class="page-item"><a class="page-link" href="">Next</a></li>
-                <?php } else { ?>
-                  <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a>
-                  </li>
-                <?php } ?>
-              <?php } else { ?>
-                <li class="page-item"><a class="page-link" href="?page_nr=2">Next</a></li>
-              <?php } ?>
-              <!-- Go to the Last page -->
-              <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
-            </ul>
-          </nav>
         <?php } else { ?>
           <div class="mt-2 rounded-2 d-flex justify-content-center  align-items-center" style="background-color: #458ae4">
             <h1><i class="bi bi-caret-right text-light h3">ກະທູ້ຄຳຖາມ</i></h1>
           </div>
-          <hr>
+        <?php } ?>
+        <hr>
           <?php while ($result = $results->fetch(PDO::FETCH_ASSOC)) { ?>
             <div class="border rounded-2 p-2 my-3">
               <a class="nav-link fs-5"
                 href="QnA/question_detail.php?id=<?php echo $result['q_id'] ?>"><?php echo $result['title']; ?></a>
             </div>
           <?php } ?>
-          <!-- pagination -->
-          <nav aria-label="Page navigation">
-            <!-- Display the page info text -->
-            <div class="d-flex justify-content-center">
-              <?php if (!isset($_GET['page_nr'])) { ?>
+    <?php if($pages > 1) { ?>
+      <!-- pagination -->
+    <nav aria-label="Page navigation">
+        <!-- Display the page info text -->
+        <div class="d-flex justify-content-center">
+            <?php if (!isset($_GET['page_nr'])) { ?>
                 <?php $page = 1; ?>
-              <?php } else { ?>
-                <?php $page = $_GET['page_nr']; ?>
-              <?php } ?>
-              <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
-            </div>
-            <ul class="pagination justify-content-center">
-              <!-- Go to the first page -->
-              <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
-              <!-- Go to the previous page -->
-              <li class="page-item">
-                <?php if (isset($_GET['page_nr']) && $_GET['page_nr'] > 1) { ?>
-                  <a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] - 1 ?>">Previous</a>
-                  <?php
+            <?php } else { ?>
+                <?php $page = intval($_GET['page_nr']); ?>
+            <?php } ?>
+            <p>showing <?php echo $page; ?> of <?php echo $pages; ?></p>
+        </div>
+        <ul class="pagination justify-content-center">
+            <!-- Go to the first page -->
+            <li class="page-item"><a class="page-link" href="?page_nr=1">First</a></li>
+            <!-- Go to the previous page -->
+            <li class="page-item">
+                <?php if ($page > 1) { ?>
+                    <a class="page-link" href="?page_nr=<?php echo $page - 1 ?>">Previous</a>
+                    <?php
                 } else { ?>
-                  <a class="page-link">Previous</a>
+                    <a class="page-link">Previous</a>
                 <?php } ?>
-              </li>
-              <?php if (!isset($_GET['page_nr'])) { ?>
-                <li class="page-item"><a class="page-link active" href="?page_nr=1">1</a>
-                  <?php $count_from = 2; ?></li>
-              <?php } else { ?>
-                <?php $count_from = 1; ?>
-              <?php } ?>
-              <?php for ($num = $count_from; $num <= $pages; $num++) { ?>
-                <?php if ($num == @$_GET['page_nr']) { ?>
-                  <li class="page-item"><a class="page-link active"
-                      href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
-                <?php } else { ?>
-                  <li class="page-item"><a class="page-link " href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a>
-                  </li>
-                <?php } ?>
-              <?php } ?>
+            </li>
+            <?php
+            $start = max(1, $page - 2);
+            $end = min($pages, $page + 5);
 
-              <!-- Go to the next page -->
-              <?php
-              if (isset($_GET['page_nr'])) { ?>
-                <?php if ($_GET['page_nr'] >= $pages) { ?>
-                  <li class="page-item"><a class="page-link" href="">Next</a></li>
+            if ($start > 1) {
+                // echo '<li class="page-item"><a class="page-link" href="?page_nr=1">1</a></li>';
+                if ($start > 2) {
+                    echo '<li class="page-item"><span class="page-link">...</span></li>';
+                }
+            }
+
+            for ($num = $start; $num <= $end; $num++) { ?>
+                <?php if ($num == $page) { ?>
+                    <li class="page-item active"><a class="page-link"
+                            href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
                 <?php } else { ?>
-                  <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a>
-                  </li>
+                    <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $num; ?>"><?php echo $num; ?></a></li>
                 <?php } ?>
-              <?php } else { ?>
+            <?php }
+
+            if ($end < $pages) {
+                if ($end < $pages - 1) {
+                    echo '<li class="page-item"><span class="page-link">...</span></li>';
+                }
+            }
+            ?>
+
+            <!-- Go to the next page -->
+            <?php
+            if (isset($_GET['page_nr'])) { ?>
+                <?php if ($_GET['page_nr'] >= $pages) { ?>
+                    <li class="page-item"><a class="page-link" href="">Next</a></li>
+                <?php } else { ?>
+                    <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $_GET['page_nr'] + 1; ?>">Next</a></li>
+                <?php } ?>
+            <?php } else { ?>
                 <li class="page-item"><a class="page-link" href="?page_nr=2">Next</a></li>
-              <?php } ?>
-              <!-- Go to the Last page -->
-              <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
-            </ul>
-          </nav>
-        <?php } ?>
+            <?php } ?>
+            <!-- Go to the Last page -->
+            <li class="page-item"><a class="page-link" href="?page_nr=<?php echo $pages; ?>">Last</a></li>
+        </ul>
+    </nav>
+      <?php }?>
       </div>
     </div>
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">

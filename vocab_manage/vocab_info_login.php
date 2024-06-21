@@ -3,15 +3,19 @@ $title = "Lao Dictionary";
 require_once "header_vocab_manage.php";
 require_once "search_vocab_login.php";
 require_once "../db/config.php";
-if (!isset($_GET['id'])) {
-  header('location:homePage.php');
-} else {
-  $v_id = $_GET['id'];
+if (isset($_GET['id'])) {
+  $v_id = $_GET['id']; // question_id
+} elseif (isset($_POST['v_id'])) {
+  $v_id = $_POST['v_id']; // question_id from POST request
+}else{
+  header('location:../homePage.php');
+}
+if ($v_id) {
   $detail = $controller->showDetail($v_id);
   // var_dump($definition_info);
   $infoVocab = $controller->showVocabDetail($v_id);
   $index = 1;
-}
+} 
 
 if (isset($_POST['editVocab'])) { //Method edit vocab =.
   $old_vocab = $_POST['old_vocab'];

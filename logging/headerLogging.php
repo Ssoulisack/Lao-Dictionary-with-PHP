@@ -92,12 +92,11 @@ require_once "../layout/checkLogin.php";
                                 </li>
                                 <li class="dropdown-item"><a href="../reports/reportEditVocab.php"
                                         class="nav-link">ລາຍງານການແກ້ໄຂຄຳສັບ</a></li>
+                                <li class="dropdown-item"><a href="../reports/reportEditDefinition.php"
+                                        class="nav-link">ລາຍງານການແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
                             </ul>
                         </li>
-                    <?php } else {
-                        header("Location: ../login.php");
-                        exit();
-                    } ?>
+                    <?php } ?>
                     <?php if (isset($_SESSION["id"])) { ?>
                         <li class="nav-item dropdown">
                             <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"
