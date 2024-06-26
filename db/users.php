@@ -11,7 +11,7 @@ class Users
     function insertAdmin($username, $email, $password, $fname, $lname, $address, $tel, $urole)
     {
         try {
-            $passwordHash = md5($password . $username);
+            $passwordHash = md5($password);
             $sql = "INSERT INTO admin(username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
@@ -34,7 +34,7 @@ class Users
     function insertUser($username, $email, $password, $fname, $lname, $address, $tel, $urole)
     {
         try {
-            $passwordHash = md5($password . $username);
+            $passwordHash = md5($password);
             $sql = "INSERT INTO member (username, firstname, lastname, email, password, address, telephone, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
@@ -78,6 +78,30 @@ class Users
             return false;
         }
     }
+    //check password
+    function checkPassword($password)
+    {
+        try {
+            $passwordHash = md5($password);
+            $sql = "SELECT COUNT(*) as num
+            FROM (
+                SELECT password FROM member WHERE password = :password
+                UNION ALL
+                SELECT password FROM admin WHERE password = :password
+                UNION ALL
+                SELECT password FROM expert_language WHERE password = :password
+            ) AS combined_results";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":password", $passwordHash);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            return $result;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 
 
     //insert Language Expert
@@ -85,7 +109,7 @@ class Users
     {
         try {
             $imageContent = file_get_contents($doc);
-            $passwordHash = md5($password . $username);
+            $passwordHash = md5($password);
             $sql = "INSERT INTO expert_language (username, firstname, lastname, email, password, address, telephone, credentials, status, urole) VALUES (:username, :fname, :lname, :email, :password, :address, :tel, :document, :status, :urole)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":username", $username);
@@ -239,7 +263,7 @@ class Users
                 return false;
             }
         } catch (PDOException $e) {
-            echo $e->getMessage();
+            // echo $e->getMessage();
             return false;
         }
     }
@@ -292,4 +316,37 @@ class Users
             return false;
         }
     }
+    //Edited INFORMATION USERS
+    function editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole)
+    {
+        try {
+            if($urole === "languageExpert"){
+                $sql = "UPDATE expert_language
+                SET username = :username, email = :email, firstname = :fname, lastname = :lname, address = :address, telephone = :telephone
+                WHERE e_id= :id";
+            }elseif($urole === "admin"){
+                $sql = "UPDATE admin
+                SET username = :username, email = :email, firstname = :fname, lastname = :lname, address = :address, telephone = :telephone
+                WHERE admin_id= :id";
+            }else{
+                $sql = "UPDATE member
+                SET username = :username, email = :email, firstname = :fname, lastname = :lname, address = :address, telephone = :telephone
+                WHERE m_id= :id";
+            }
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":username", $username);
+            $stmt->bindParam(":email", $email);
+            $stmt->bindParam(":fname", $fname);
+            $stmt->bindParam(":lname", $lname);
+            $stmt->bindParam(":address", $address);
+            $stmt->bindParam(":telephone", $tel);
+            $stmt->bindParam(":id", $user_id);
+            $stmt->execute();
+            return true;
+
+        } catch (PDOException $e) {
+            // echo $e->getMessage();
+            return false;
+        }
+    } 
 }

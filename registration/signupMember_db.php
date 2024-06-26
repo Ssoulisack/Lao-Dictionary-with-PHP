@@ -30,16 +30,15 @@ if (isset ($_POST['submit'])) {
         header("location:signupMember.php");
         exit();
     }
-
-    if ($password != $c_password) {
-        $_SESSION["error"] = "Passwords do not match! Try again";
-        header("location:signupMember.php");
-        exit();
-    }
     $result = $user->checkUserData($username, $email);
+    $checkPassword = $user->checkPassword($password);
     if ($result['num'] > 0) {
         $_SESSION["error"] = "Email or username has already exits";
-        header("location:signupMember.php");
+        header("location:signupEpl.php");
+        exit();
+    } else if ($checkPassword['num'] > 0) {
+        $_SESSION["error"] = "Password has already exits";
+        header("location:signupEpl.php");
         exit();
     } else {
         $result = $user->insertUser($username, $email, $password, $fname, $lname, $address, $tel, $urole);

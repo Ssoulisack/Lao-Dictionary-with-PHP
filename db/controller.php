@@ -197,7 +197,8 @@ class Controller
             d.characters
             FROM vocabulary b
             INNER JOIN characters d ON b.character_id = d.character_id
-            WHERE b.character_id = :character_id;";
+            WHERE b.character_id = :character_id
+            ORDER BY b.vocabulary ASC";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":character_id", $character_id);
             $stmt->execute();

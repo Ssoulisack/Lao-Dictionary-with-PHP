@@ -10,6 +10,7 @@ if (isset($_GET['id'])) {
 }
 if ($id) {
     $questionDetail = $question->questionDetail($id);
+    $username = $question->creator($id);
     $content = $questionDetail['content'];
     $content = nl2br(htmlspecialchars($content, ENT_QUOTES, 'UTF-8'));
     $comments = $question->showComment($id);
@@ -32,7 +33,11 @@ if ($id) {
             <?php if ($questionDetail['user_id'] == $_SESSION['id'] || $_SESSION['urole'] == 'admin' || $_SESSION['urole'] == 'languageExpert') { ?>
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column border-top p-2 rounded-3">
-                        <span class="">ເຈົ້າຂອງກະທູ້: <?php echo $questionDetail['username'] ?></span>
+                        <span class="">ເຈົ້າຂອງກະທູ້: <?php if (empty($username['username'])) {
+                            echo "user not found";
+                        } else {
+                            echo $username['username'];
+                        } ?></span>
                         <span class="text-muted time" data-time="<?php echo $questionDetail['create_at'] ?>"></span>
                     </div>
                     <div class="align-self-end">
@@ -43,7 +48,11 @@ if ($id) {
                 </div>
             <?php } else { ?>
                 <div class="d-flex flex-column">
-                    <span class="">ເຈົ້າຂອງກະທູ້: <?php echo $questionDetail['username'] ?></span>
+                    <span class="">ເຈົ້າຂອງກະທູ້: <?php if (empty($username['username'])) {
+                        echo "user not found";
+                    } else {
+                        echo $username['username'];
+                    } ?></span>
                     <div class="">
                         <span class="text-muted">ເວລາ:</span>
                         <span class="text-muted time" data-time="<?php echo $questionDetail['create_at'] ?>"></span>
@@ -161,13 +170,14 @@ if ($id) {
                                         <span class="text-muted">ເວລາ: </span>
                                         <span class="text-muted time" data-time="<?php echo $reply['create_at']; ?>"></span>
                                         <?php if ($reply['user_id'] == $_SESSION['id'] && $reply['username'] == $_SESSION['username']) { ?>
-                                        <form action="deleteReply.php" method="POST">
-                                            <input type="hidden" name="c_id" value="<?php echo $reply['c_id']; ?>">
-                                            <input type="hidden" name="q_id" value="<?php echo $reply['q_id']; ?>">
-                                            <input type="submit" name="delete" onclick="return confirm('Do you want to delete this information')"
-                                                class="reply-delete action" value="ລົບ">
-                                        </form>
-                                        <?php }?>
+                                            <form action="deleteReply.php" method="POST">
+                                                <input type="hidden" name="c_id" value="<?php echo $reply['c_id']; ?>">
+                                                <input type="hidden" name="q_id" value="<?php echo $reply['q_id']; ?>">
+                                                <input type="submit" name="delete"
+                                                    onclick="return confirm('Do you want to delete this information')"
+                                                    class="reply-delete action" value="ລົບ">
+                                            </form>
+                                        <?php } ?>
                                     </div>
                                 </div>
                                 <?php

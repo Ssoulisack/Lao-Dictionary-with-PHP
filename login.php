@@ -6,7 +6,7 @@ require_once "db/config.php";
 if($_SERVER["REQUEST_METHOD"]=="POST"){
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $new_password= md5($password.$username);
+    $new_password= md5($password);
 
     $loginAdmin = $user->loginAdmin($username, $new_password);
     $loginMember = $user->loginMembers($username, $new_password);

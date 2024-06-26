@@ -51,17 +51,33 @@ class Question
     function questionDetail($q_id)//question_detail.php
     {
         try {
-            $sql = "SELECT a.q_id, a.title, a.content, a.create_at, a.user_id, b.username
-            FROM question a
-            INNER JOIN member b ON b.m_id = a.user_id
-            WHERE a.q_id = :q_id";
+            $sql = "SELECT q_id, title, content, create_at, user_id
+            FROM question
+            WHERE q_id = :q_id";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam("q_id", $q_id);
+            $stmt->bindParam(":q_id", $q_id);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result;
         } catch (PDOException $e) {
             echo $e->getMessage();
+            return false;
+        }
+    }
+    function creator($q_id){
+        try {
+            $sql = "SELECT b.username
+            FROM question a
+            INNER JOIN member b ON a.user_id = b.m_id
+            WHERE a.q_id = :q_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":q_id", $q_id);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            // $message = "User not found";
+            return $result;
+        } catch (PDOException $e) {
+            // echo $e->getMessage();
             return false;
         }
     }
