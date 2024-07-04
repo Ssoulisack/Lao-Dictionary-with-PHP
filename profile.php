@@ -3,17 +3,18 @@ $title = "ຂໍ້ມູນສ່ວນໂຕ";
 require_once "layout/headerLogin.php";
 require_once "db/config.php";
 require_once "layout/checkLogin.php";
+
 $s_id = $_SESSION['id'];
 $s_name = $_SESSION['username'];
 $status = $_SESSION['urole'];
 
 // Fetch current user information for comparison
 $currentUser = $user->infoUser($s_id, $s_name, $status);
-
 $currentUsername = $currentUser['username'];
 $currentEmail = $currentUser['email'];
-//edit information
-if (isset($_POST['editInfo'])) { //Method edit vocab =.
+
+// Edit information
+if (isset($_POST['editInfo'])) {
     $user_id = $_POST['user_id'];
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -22,84 +23,57 @@ if (isset($_POST['editInfo'])) { //Method edit vocab =.
     $tel = $_POST['tel'];
     $address = $_POST['address'];
     $urole = $_SESSION['urole'];
+
     $shouldCheck = false;
     $checkUser = false;
     $checkEmail = false;
 
-    //SESSION USER
-    $s_id = $_SESSION['id'];
-    $s_name = $_SESSION['username'];
-    $status = $_SESSION['urole'];
     // Check if username or email has changed
     if ($username !== $currentUsername && $email !== $currentEmail) {
         $shouldCheck = true;
-    } elseif ($username !== $currentUsername && $email == $email) {
+    } elseif ($username !== $currentUsername) {
         $checkUser = true;
-    } elseif ($username == $currentUsername && $email !== $email) {
+    } elseif ($email !== $currentEmail) {
         $checkEmail = true;
     }
+
+    // Check and update user data
     if ($shouldCheck) {
         $result = $user->checkUserData($username, $email);
         if ($result['num'] > 0) {
-            $_SESSION["error"] = "Email or username has already exists";
+            $_SESSION["error"] = "Email or username already exists";
         } else {
-            $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
-            if ($edit) {
-                // Update session variables with new data
-                $_SESSION['username'] = $username;
-
-                $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ0";
-            } else {
-                $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
-            }
+            updateUserData($user, $user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
         }
     } elseif ($checkUser) {
         $result = $user->checkUsername($username);
         if ($result['num'] > 0) {
-            $_SESSION["error"] = "username has already exists";
+            $_SESSION["error"] = "Username already exists";
         } else {
-            $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
-            if ($edit) {
-                // Update session variables with new data
-                $_SESSION['username'] = $username;
-
-                $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ1";
-            } else {
-                $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
-            }
+            updateUserData($user, $user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
         }
     } elseif ($checkEmail) {
         $result = $user->checkEmail($email);
         if ($result['num'] > 0) {
-            $_SESSION["error"] = "Email has already exists";
+            $_SESSION["error"] = "Email already exists";
         } else {
-            $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
-            if ($edit) {
-                // Update session variables with new data
-                $_SESSION['username'] = $username;
-
-                $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ2";
-            } else {
-                $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
-            }
+            updateUserData($user, $user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
         }
     } else {
-        // If no changes to username or email, proceed with the update
-        $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
-        if ($edit) {
-            // Update session variables with new data
-            $_SESSION['username'] = $username;
+        updateUserData($user, $user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
+    }
 
-            $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ3";
-        } else {
-            $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
-        }
+    if (!isset($_SESSION["error"])) {
+        $s_name = $username;
+        $_SESSION['username'] = $username;
+        $currentUser = $user->infoUser($s_id, $s_name, $status);
     }
 }
+
 $result = $user->infoUser($s_id, $s_name, $status);
-// print_r($result);
 $time = $result['date'];
 $date = explode(' ', $time)[0]; // Extract the date part
+
 switch ($status) {
     case 'admin':
         $id = $result['admin_id'];
@@ -114,7 +88,20 @@ switch ($status) {
         $id = null;
         break;
 }
+
+function updateUserData($user, $user_id, $username, $email, $fname, $lname, $tel, $address, $urole)
+{
+    $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
+    if ($edit) {
+        $_SESSION['username'] = $username;
+        $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ";
+    } else {
+        $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
+    }
+}
 ?>
+
+
 <div class="container">
     <div class="card mb-4">
         <div class="card-body">
