@@ -34,11 +34,11 @@ if (isset ($_POST['submit'])) {
     $checkPassword = $user->checkPassword($password);
     if ($result['num'] > 0) {
         $_SESSION["error"] = "Email or username has already exits";
-        header("location:signupEpl.php");
+        header("location:signupMember.php");
         exit();
     } else if ($checkPassword['num'] > 0) {
         $_SESSION["error"] = "Password has already exits";
-        header("location:signupEpl.php");
+        header("location:signupMember.php");
         exit();
     } else {
         $result = $user->insertUser($username, $email, $password, $fname, $lname, $address, $tel, $urole);
