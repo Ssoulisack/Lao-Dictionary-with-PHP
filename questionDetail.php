@@ -22,9 +22,17 @@ if (isset($_GET['id'])) {
                 style='font-size:30px;'>&#9755;</span><?php echo $questionDetail['content']; ?>
         </h5>
         <hr>
-        <span class="">ເຈົ້າຂອງກະທູ້: <?php echo $questionDetail['username'] ?></span>
-        <br>
-        <span class="">ເວລາ: <?php echo $questionDetail['create_at'] ?></span>
+        <div class="d-flex flex-column">
+                    <span class="">ເຈົ້າຂອງກະທູ້: <?php if (empty($username['username'])) {
+                        echo "user not found";
+                    } else {
+                        echo $username['username'];
+                    } ?></span>
+                    <div class="">
+                        <span class="text-muted">ເວລາ:</span>
+                        <span class="text-muted time" data-time="<?php echo $questionDetail['create_at'] ?>"></span>
+                    </div>
+                </div>
     </div>
     <!-- Comment session -->
     <?php if ($commentNr > 0) { ?>

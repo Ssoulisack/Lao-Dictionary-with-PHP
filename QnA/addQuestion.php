@@ -16,14 +16,14 @@ if(isset($_POST['submit'])){
         exit();
     }else{
         if (strlen($title) > 300) {
-            $_SESSION['error'] = "The title is long.";
+            $_SESSION['error'] = "ຫົວຂໍ້ຕ້ອງມີິຄວາມຍາວບໍ່ເກີນ 300 ຕົວອັກສອນ";
             header("location:addQuestion_form.php");
             exit();
         }else{
             $addQuestion = $question->addQuestion($title, $content, $user_id);
         if($addQuestion){
             $_SESSION['success'] = "ສ້າງກະທູ້ສຳເລັດ";
-            header("location:questions_page.php");
+            header("location:../homePage.php");
             exit();
         }
         }

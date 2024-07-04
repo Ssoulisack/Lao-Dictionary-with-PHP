@@ -9,7 +9,8 @@ class Controller
         $this->db = $con;
     }
     //allVocab
-    function allVocab($start, $rows_per_page){
+    function allVocab($start, $rows_per_page)
+    {
         try {
             $sql = "SELECT * FROM vocabulary ORDER BY vocabulary ASC LIMIT $start, $rows_per_page";
             $stmt = $this->db->query($sql);
@@ -32,7 +33,8 @@ class Controller
         }
     }
     //GET part of speech
-    function getPos(){
+    function getPos()
+    {
         try {
             $sql = "SELECT * FROM parts_of_speech";
             $stmt = $this->db->query($sql);
@@ -171,6 +173,22 @@ class Controller
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $result;
+
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    function searchNumVocab($vocabulary)
+    {
+        try {
+            $vocab = '%' . $vocabulary . '%';
+            $sql = "SELECT COUNT(*) as row_count FROM vocabulary WHERE vocabulary LIKE :vocab";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":vocab", $vocab);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $row_count = $row['row_count'];
+            return $row_count;
 
         } catch (PDOException $e) {
             return $e->getMessage();

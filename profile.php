@@ -3,18 +3,17 @@ $title = "ຂໍ້ມູນສ່ວນໂຕ";
 require_once "layout/headerLogin.php";
 require_once "db/config.php";
 require_once "layout/checkLogin.php";
-$user_id = $_SESSION['id'];
-$username = $_SESSION['username'];
-$urole = $_SESSION['urole'];
+$s_id = $_SESSION['id'];
+$s_name = $_SESSION['username'];
+$status = $_SESSION['urole'];
 
 // Fetch current user information for comparison
-$currentUser = $user->infoUser($user_id, $username, $urole);
+$currentUser = $user->infoUser($s_id, $s_name, $status);
 
 $currentUsername = $currentUser['username'];
 $currentEmail = $currentUser['email'];
 //edit information
 if (isset($_POST['editInfo'])) { //Method edit vocab =.
-
     $user_id = $_POST['user_id'];
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -24,9 +23,20 @@ if (isset($_POST['editInfo'])) { //Method edit vocab =.
     $address = $_POST['address'];
     $urole = $_SESSION['urole'];
     $shouldCheck = false;
+    $checkUser = false;
+    $checkEmail = false;
+
+    //SESSION USER
+    $s_id = $_SESSION['id'];
+    $s_name = $_SESSION['username'];
+    $status = $_SESSION['urole'];
     // Check if username or email has changed
     if ($username !== $currentUsername && $email !== $currentEmail) {
         $shouldCheck = true;
+    } elseif ($username !== $currentUsername && $email == $email) {
+        $checkUser = true;
+    } elseif ($username == $currentUsername && $email !== $email) {
+        $checkEmail = true;
     }
     if ($shouldCheck) {
         $result = $user->checkUserData($username, $email);
@@ -38,29 +48,59 @@ if (isset($_POST['editInfo'])) { //Method edit vocab =.
                 // Update session variables with new data
                 $_SESSION['username'] = $username;
 
-                $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ";
+                $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ0";
             } else {
                 $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
             }
         }
-    }else {
+    } elseif ($checkUser) {
+        $result = $user->checkUsername($username);
+        if ($result['num'] > 0) {
+            $_SESSION["error"] = "username has already exists";
+        } else {
+            $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
+            if ($edit) {
+                // Update session variables with new data
+                $_SESSION['username'] = $username;
+
+                $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ1";
+            } else {
+                $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
+            }
+        }
+    } elseif ($checkEmail) {
+        $result = $user->checkEmail($email);
+        if ($result['num'] > 0) {
+            $_SESSION["error"] = "Email has already exists";
+        } else {
+            $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
+            if ($edit) {
+                // Update session variables with new data
+                $_SESSION['username'] = $username;
+
+                $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ2";
+            } else {
+                $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
+            }
+        }
+    } else {
         // If no changes to username or email, proceed with the update
         $edit = $user->editInfo($user_id, $username, $email, $fname, $lname, $tel, $address, $urole);
         if ($edit) {
             // Update session variables with new data
             $_SESSION['username'] = $username;
 
-            $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ";
+            $_SESSION["success"] = "ແກ້ໄຂຂໍ້ມູນສຳເລັດ3";
         } else {
             $_SESSION["error"] = "ຂໍ້ມູນບໍ່ຖືກຕ້ອງ";
         }
     }
 }
-$result = $user->infoUser($user_id, $username, $urole);
+$result = $user->infoUser($s_id, $s_name, $status);
 // print_r($result);
 $time = $result['date'];
 $date = explode(' ', $time)[0]; // Extract the date part
-switch ($urole) {
+switch ($status) {
     case 'admin':
         $id = $result['admin_id'];
         break;
@@ -115,7 +155,9 @@ switch ($urole) {
                     <p class="mb-0 fw-bold">ຊື່ ແລະ ນາມສະກຸນ</p>
                 </div>
                 <div class="col-sm-9">
-                    <p class="text-muted mb-0"><?php echo htmlspecialchars($result['firstname']) . ' ' . htmlspecialchars($result['lastname']) ?></p>
+                    <p class="text-muted mb-0">
+                        <?php echo htmlspecialchars($result['firstname']) . ' ' . htmlspecialchars($result['lastname']) ?>
+                    </p>
                 </div>
             </div>
             <hr>

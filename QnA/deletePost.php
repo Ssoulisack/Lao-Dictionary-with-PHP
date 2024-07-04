@@ -5,7 +5,7 @@ if (isset($_POST['deletePost'])) {
     $id = $_POST['q_id'];
     $deletePost = $question->deletePost($id);
     if ($deletePost) {
-        $_SESSION['warning'] = "ສ້າງກະທູ້ສຳເລັດ";
-        header("location:questions_page.php");
+        $_SESSION['warning'] = "ກະທູ້ຖືກລົບແລ້ວ";
+        header("location:../homePage.php");
     }
 }

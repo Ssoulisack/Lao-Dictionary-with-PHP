@@ -78,6 +78,52 @@ class Users
             return false;
         }
     }
+    //Check Email and Username profile.php
+    function checkEmail($email)
+    {
+        try {
+            $sql = "SELECT COUNT(*) as num 
+            FROM (
+                SELECT email FROM member WHERE email = :email
+                UNION ALL
+                SELECT email FROM admin WHERE email = :email
+                UNION ALL
+                SELECT email FROM expert_language WHERE email = :email
+            ) AS combined_results";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":email", $email);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            return $result;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    function checkUsername($username)
+    {
+        try {
+            $sql = "SELECT COUNT(*) as num 
+            FROM (
+                SELECT username FROM member WHERE username = :username
+                UNION ALL
+                SELECT username FROM admin WHERE username = :username
+                UNION ALL
+                SELECT username FROM expert_language WHERE username = :username
+            ) AS combined_results";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":username", $username);
+            $stmt->execute();
+            $result = $stmt->fetch();
+            return $result;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    
     //check password
     function checkPassword($password)
     {
