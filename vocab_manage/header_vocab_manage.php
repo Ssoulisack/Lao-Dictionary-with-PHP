@@ -32,7 +32,7 @@ require_once "../layout/loginCheck.php";
         <ul class="navbar-nav ms-auto me-auto">
           <li class="nav-item"><a href="../homePage.php" class="text-dark nav-link">ໜ້າທຳອິດ</a></li>
           <li class="nav-item"><a href="all_vocab.php" class="text-dark nav-link">ຄຳສັບທັງໝົດ</a></li>
-          <li class="nav-item"><a href="#" class="text-dark nav-link">ກ່ຽວກັບ</a></li>
+          <li class="nav-item"><a href="../AboutUsLogin.php" class="text-dark nav-link">ກ່ຽວກັບ</a></li>
           <?php if ($_SESSION["urole"] == "admin") { ?>
             <li class="nav-item dropdown">
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown"

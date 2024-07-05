@@ -30,7 +30,7 @@ session_start();
           <ul class="navbar-nav ms-auto me-auto">
             <li class="nav-item"><a href="../index.php" class="text-dark nav-link">ໜ້າທຳອິດ</a></li>
             <li class="nav-item"><a href="../allVocab.php" class="text-dark nav-link">ຄຳສັບທັງໝົດ</a></li>
-            <li class="nav-item"><a href="#" class="text-dark nav-link">ກ່ຽວກັບ</a></li>
+            <li class="nav-item"><a href="../aboutUs.php" class="text-dark nav-link">ກ່ຽວກັບ</a></li>
             <li class="nav-item dropdown">
               <a href="#" class="text-dark nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">ການລົງທະບຽນ</a>
               <ul class="dropdown-menu">

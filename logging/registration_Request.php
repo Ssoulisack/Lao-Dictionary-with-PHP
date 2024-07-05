@@ -32,7 +32,7 @@ $result = $user->eplRequest($status);
                 <div class="col-md-4 col-lg-4">
                     <img class="img-thumbnail mb-3"
                         src="data:image/jpeg;base64,<?php echo base64_encode($row['credentials']) ?>" alt="Uploaded image"
-                        style="width: 100%;" />
+                        style="width: 100%; height: 50%;" />
                     <div>
                         <h4 class="text-secondary">ຊື່ ແລະ ນາມສະກຸນ</h4>
                         <h5 class=" fw-bold">

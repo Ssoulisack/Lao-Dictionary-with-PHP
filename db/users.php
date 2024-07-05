@@ -233,7 +233,7 @@ class Users
     function eplRequest($status)
     {
         try {
-            $sql = "SELECT * FROM expert_language WHERE status = :status";
+            $sql = "SELECT * FROM expert_language WHERE status = :status ORDER BY date DESC";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(":status", $status);
             $stmt->execute();
