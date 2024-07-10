@@ -1,5 +1,5 @@
 <?php
-$title = "Registration";
+$title = "ສ້າງກະທູ້";
 require_once "../db/config.php";
 require_once "headerQA.php";
 ?>
@@ -32,8 +32,9 @@ require_once "headerQA.php";
             <textarea id="content" name="content" class="form-control ms-4" id="" cols="20" rows="10"></textarea>
         </div>
         <div class="d-flex justify-content-end">
-            <input class="btn btn-primary mx-2 py-2 " value="ຢືນຍັນ" type="submit" name="submit">
-            <input class="btn btn-secondary  py-2" value="ຍົກເລີກ" type="submit" name="cancel">
+            <!-- <input class="border border-none py-2" value="ຍົກເລີກ" type="submit" name="cancel"> -->
+            <input class="btn btn-primary mx-2 py-1 " value="ຢືນຍັນ" type="submit" name="submit">
+            <a href="../homePage.php" class="text-decoration-none rounded-3 text-dark ms-3 py-2">ກັບໜ້າຫຼັກ</a>
         </div>
     </form>
 </div>

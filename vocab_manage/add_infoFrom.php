@@ -1,4 +1,5 @@
 <?php
+$title = "ເພີ່ມຄຳອະທິບາຍສັບ";
 require_once "../db/config.php";
 require_once "header_vocab_manage.php";
 $result_pos = $controller->infoPos();

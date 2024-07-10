@@ -1,5 +1,5 @@
 <?php
-$title = "reportVocab";
+$title = "ລາຍງານຜູ້ຊ່ຽວຊານ";
 require_once "../db/config.php";
 require_once "header_report.php";
 require_once __DIR__ . "/../vendor/autoload.php";
