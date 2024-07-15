@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['date-start']) && isset
 
 $memberNumRow = $reports->memberNumRows();
 // Setting the number of rows to display in a page.
-$rows_per_page = 30;
+$rows_per_page = 10;
 
 // calculating the number of pages.
 $pages = ceil($memberNumRow / $rows_per_page);

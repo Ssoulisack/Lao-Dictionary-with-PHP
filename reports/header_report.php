@@ -103,7 +103,7 @@ require_once "../layout/loginCheck.php";
                   <li class="dropdown-item"><a href="../profile.php" class="nav-link">ຂໍ້ມູນສ່ວນໂຕ</a></li>
                   <li class="dropdown-item"><a href="../vocab_manage/listVocab_req.php" class="nav-link">ຄຳຂໍແກ້ໄຂຄຳສັບ</a>
                   </li>
-                  <li class="dropdown-item"><a href="vocab_manage/listEdit_req.php"
+                  <li class="dropdown-item"><a href="../vocab_manage/listEdit_req.php"
                       class="nav-link">ຄຳຂໍແກ້ໄຂຄຳອະທິບາຍສັບ</a></li>
                   <li class="dropdown-item"><a href="../logging/add_vocab.php" class="nav-link">ເພີ່ມຄຳສັບ</a>
                   </li>

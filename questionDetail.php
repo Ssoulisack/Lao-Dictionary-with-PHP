@@ -5,6 +5,7 @@ require_once "layout/header.php";
 if (isset($_GET['id'])) {
     $id = $_GET['id']; //question_id
     $questionDetail = $question->questionDetail($id);
+    $username = $question->creator($id);
     $comments = $question->showComment($id);
     $commentNr = $question->commentNumRows($id);
 }
