@@ -227,10 +227,7 @@ if ($eplReport) {
         </ul>
     </nav>
       <?php }?>
-</body>
 
-</html>
-</main>
 </body>
 
 </html>

@@ -219,7 +219,3 @@ if ($vocabInfo) {
 </body>
 
 </html>
-</main>
-</body>
-
-</html>

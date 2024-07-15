@@ -230,7 +230,3 @@ if ($memberReport) {
 </body>
 
 </html>
-</main>
-</body>
-
-</html>

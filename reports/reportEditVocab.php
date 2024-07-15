@@ -229,10 +229,7 @@ if ($editVocabReport) {
         </ul>
     </nav>
 <?php } ?>
-</body>
 
-</html>
-</main>
 </body>
 
 </html>
