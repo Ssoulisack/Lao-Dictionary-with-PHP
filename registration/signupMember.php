@@ -63,7 +63,7 @@ require_once "../layout/header2.php";
             </div>
             <div class="form-group">
                 <button class="btn btn-primary w-100 py-2 mb-2 ms-auto" type="submit" name="submit">ລົງທະບຽນ</button>
-                <p class="text-center">Have already an account? <a href="login.php">sign in</a></p>
+                <p class="text-center">Have already an account? <a href="../login.php">sign in</a></p>
             </div>
         </form>
     </div>
